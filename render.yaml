@@ -1,0 +1,25 @@
+services:
+  - type: web
+    name: dh2013-train-and-dare-backend
+    runtime: node
+    plan: free
+    rootDir: train-dare-backend
+    buildCommand: npm install && npm run build
+    startCommand: npm start
+    healthCheckPath: /api/health
+    autoDeployTrigger: commit
+    envVars:
+      - key: NODE_VERSION
+        value: "20"
+      - key: NODE_ENV
+        value: production
+      - key: JWT_SECRET
+        generateValue: true
+      - key: JWT_EXPIRES_IN
+        value: "604800"
+      - key: ADMIN_USERNAME
+        sync: false
+      - key: ADMIN_PASSWORD
+        sync: false
+      - key: MONGODB_REQUIRED
+        value: "false"
