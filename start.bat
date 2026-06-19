@@ -11,5 +11,3 @@ echo Frontend : http://localhost:5173
 echo.
 echo Deux fenetres ouvertes. Fermez-les pour arreter les serveurs.
 pause
-
-<
