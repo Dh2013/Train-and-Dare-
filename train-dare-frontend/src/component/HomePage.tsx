@@ -30,7 +30,14 @@ import { motion } from 'framer-motion';
 import { useNavigate } from 'react-router-dom';
 import { contactApi } from '../api/contact';
 import type { ContactFormValues } from '../types/forms';
+import { trackConversion, trackEvent } from '../lib/analytics';
 import Seo from './Seo';
+import {
+  ClientReviewsSection,
+  ConversionHighlights,
+  DigitalMarketingSection,
+  EmailMarketingSection,
+} from './MarketingSections';
 import badge from '../assets/badge  najla formatrice. (1).jpg';
 import cvPDF from '../assets/cv najla ben haj maouia formatrice CNFCPP.pdf';
 import heroAdult from '../assets/IMG_20240228_150738 (3).jpg';
@@ -194,6 +201,9 @@ const HomePage: React.FC = () => {
     setSending(true);
     try {
       await contactApi.send(values);
+      trackConversion('contact_request', {
+        location: 'homepage_contact',
+      });
       setFeedback({
         type: 'success',
         text: 'Votre message a bien été envoyé. L’équipe Train & Dare vous répondra rapidement.',
@@ -218,6 +228,14 @@ const HomePage: React.FC = () => {
         description="Académie d’entrepreneuriat et de développement personnel pour jeunes, adultes et porteurs de projets."
         path="/"
         type="website"
+        keywords={[
+          'formation entrepreneuriat',
+          'coaching mindset',
+          'education entrepreneuriale',
+          'PNL',
+          'developpement personnel',
+          'Train and Dare Academy',
+        ]}
       />
 
       <section id="accueil" className="home-hero">
@@ -250,14 +268,20 @@ const HomePage: React.FC = () => {
                   size="large"
                   icon={<ArrowRightOutlined />}
                   iconPosition="end"
-                  onClick={() => scrollToSection('programmes')}
+                  onClick={() => {
+                    trackEvent('cta_click', { location: 'home_hero', action: 'programmes' });
+                    scrollToSection('programmes');
+                  }}
                 >
                   Découvrir les parcours
                 </Button>
                 <Button
                   size="large"
                   icon={<CalendarOutlined />}
-                  onClick={() => scrollToSection('contact')}
+                  onClick={() => {
+                    trackEvent('cta_click', { location: 'home_hero', action: 'contact' });
+                    scrollToSection('contact');
+                  }}
                 >
                   Demander un échange
                 </Button>
@@ -285,6 +309,7 @@ const HomePage: React.FC = () => {
                   <strong>Mindset, méthode et action</strong>
                 </div>
               </div>
+              <ConversionHighlights />
             </motion.div>
 
             <motion.div className="home-hero-visual" variants={sectionVariant}>
@@ -476,6 +501,8 @@ const HomePage: React.FC = () => {
         </div>
       </section>
 
+      <DigitalMarketingSection />
+
       <section id="coaching" className="home-section">
         <div className="home-container">
           <div className="home-section-head">
@@ -528,6 +555,8 @@ const HomePage: React.FC = () => {
           </div>
         </div>
       </section>
+
+      <ClientReviewsSection />
 
       <section id="temoignages" className="home-section home-section--dark">
         <div className="home-container">
@@ -609,6 +638,8 @@ const HomePage: React.FC = () => {
           />
         </div>
       </section>
+
+      <EmailMarketingSection />
 
       <section id="contact" className="home-section home-contact">
         <div className="home-container">

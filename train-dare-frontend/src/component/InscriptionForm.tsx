@@ -3,6 +3,7 @@ import { Form, Input, Button, Card, Typography, Select, message, Alert } from 'a
 import { useNavigate, useSearchParams } from 'react-router-dom';
 import { inscriptionsApi } from '../api/inscriptions';
 import { programsApi, type Univers, type Programme } from '../api/programs';
+import { trackConversion } from '../lib/analytics';
 
 const { Paragraph } = Typography;
 const { TextArea } = Input;
@@ -65,9 +66,13 @@ const InscriptionForm: React.FC<InscriptionFormProps> = ({
         message: values.message?.trim() || undefined,
       });
       message.success('Votre demande d\'inscription a bien été enregistrée. Nous vous recontacterons sous 48 h.');
+      trackConversion('programme_registration_request', {
+        programmeId,
+        location: 'inscription_form',
+      });
       form.resetFields();
       onSuccess?.();
-      navigate('/programmes');
+      navigate('/#programmes');
     } catch (err: unknown) {
       const msg = err && typeof err === 'object' && 'response' in err && (err as { response?: { data?: { error?: string } } }).response?.data?.error;
       message.error(String(msg || 'Erreur lors de l\'envoi. Réessayez ou contactez-nous.'));

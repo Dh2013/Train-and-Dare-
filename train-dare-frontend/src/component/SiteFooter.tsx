@@ -11,6 +11,8 @@ import {
   TeamOutlined,
 } from '@ant-design/icons';
 import { useNavigate } from 'react-router-dom';
+import { newsletterApi } from '../api/newsletter';
+import { trackConversion } from '../lib/analytics';
 import type { NewsletterFormValues } from '../types/forms';
 import './SiteFooter.css';
 
@@ -25,7 +27,9 @@ const sectionLinks = [
   { key: 'accueil', label: 'Accueil' },
   { key: 'apropos', label: 'À propos' },
   { key: 'programmes', label: 'Programmes' },
+  { key: 'marketing-digital', label: 'Marketing' },
   { key: 'coaching', label: 'Coaching' },
+  { key: 'avis-clients', label: 'Avis' },
   { key: 'blog', label: 'Blog' },
   { key: 'contact', label: 'Contact' },
 ];
@@ -41,10 +45,28 @@ const offerLinks = [
 const SiteFooter: React.FC<SiteFooterProps> = ({ onSectionNavigate }) => {
   const navigate = useNavigate();
   const [newsletterSuccess, setNewsletterSuccess] = useState(false);
+  const [newsletterError, setNewsletterError] = useState(false);
+  const [newsletterLoading, setNewsletterLoading] = useState(false);
 
-  const onFinishNewsletter = (_values: NewsletterFormValues) => {
-    setNewsletterSuccess(true);
-    setTimeout(() => setNewsletterSuccess(false), 3000);
+  const onFinishNewsletter = async (values: NewsletterFormValues) => {
+    setNewsletterSuccess(false);
+    setNewsletterError(false);
+    setNewsletterLoading(true);
+    try {
+      await newsletterApi.subscribe({
+        email: values.email.trim(),
+        source: 'footer-newsletter',
+        segments: ['all'],
+        tags: ['footer', 'email-marketing'],
+      });
+      trackConversion('newsletter_signup', { location: 'footer' });
+      setNewsletterSuccess(true);
+      setTimeout(() => setNewsletterSuccess(false), 3000);
+    } catch {
+      setNewsletterError(true);
+    } finally {
+      setNewsletterLoading(false);
+    }
   };
 
   return (
@@ -189,7 +211,7 @@ const SiteFooter: React.FC<SiteFooterProps> = ({ onSectionNavigate }) => {
                   <Input placeholder="Votre email" size="large" />
                 </Item>
                 <Item style={{ marginBottom: 0 }}>
-                  <Button htmlType="submit" type="primary" size="large" icon={<SendOutlined />}>
+                  <Button htmlType="submit" type="primary" size="large" icon={<SendOutlined />} loading={newsletterLoading}>
                     S’abonner
                   </Button>
                 </Item>
@@ -198,6 +220,14 @@ const SiteFooter: React.FC<SiteFooterProps> = ({ onSectionNavigate }) => {
 
             {newsletterSuccess && (
               <Alert message="Inscription réussie !" type="success" showIcon style={{ marginTop: 14 }} />
+            )}
+            {newsletterError && (
+              <Alert
+                message="Impossible d enregistrer l email pour le moment."
+                type="error"
+                showIcon
+                style={{ marginTop: 14 }}
+              />
             )}
           </div>
         </section>

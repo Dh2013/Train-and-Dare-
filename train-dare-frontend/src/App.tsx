@@ -17,6 +17,8 @@ import EspaceEnseignants from './component/EspaceEnseignants';
 import InscriptionPage from './component/InscriptionPage';
 import HomePage from './component/HomePage';
 import SiteFooter from './component/SiteFooter';
+import LandingPage from './component/LandingPage';
+import AnalyticsTracker from './component/AnalyticsTracker';
 
 const { Header, Content, Footer } = Layout;
 
@@ -96,6 +98,7 @@ const App: React.FC = () => {
 
   return (
     <Layout style={{ minHeight: '100vh' }}>
+        <AnalyticsTracker />
         {/* Fixed Header */}
         <Header
           style={{
@@ -221,6 +224,8 @@ const App: React.FC = () => {
             <Route path="/programmes/enseignants" element={<EspaceEnseignants />} />
             <Route path="/inscription" element={<InscriptionPage />} />
             <Route path="/inscription/:programmeSlug" element={<InscriptionPage />} />
+            <Route path="/landing" element={<LandingPage />} />
+            <Route path="/landing/:campaign" element={<LandingPage />} />
 
             {/* Detail pages for "Plus d'info" buttons */}
             <Route path="/adult-plus-info" element={<AdultPlusInfo />} />

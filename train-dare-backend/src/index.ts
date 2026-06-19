@@ -11,6 +11,7 @@ import blogsRouter from './routes/blogs';
 import contactRouter from './routes/contact';
 import inscriptionsRouter from './routes/inscriptions';
 import authRouter from './routes/auth';
+import newsletterRouter from './routes/newsletter';
 
 const app = express();
 const env = getEnv();
@@ -23,6 +24,7 @@ app.use('/api/blogs', blogsRouter);
 app.use('/api/contact', contactRouter);
 app.use('/api/inscriptions', inscriptionsRouter);
 app.use('/api/auth', authRouter);
+app.use('/api/newsletter', newsletterRouter);
 
 app.get('/api/health', (_req, res) => {
   res.json({
