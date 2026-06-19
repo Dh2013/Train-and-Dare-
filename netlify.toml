@@ -1,7 +1,6 @@
 [build]
-  base = "train-dare-frontend"
-  command = "npm run build"
-  publish = "dist"
+  command = "npm install --prefix train-dare-frontend && npm run build --prefix train-dare-frontend"
+  publish = "train-dare-frontend/dist"
 
 [build.environment]
   NODE_VERSION = "20"
