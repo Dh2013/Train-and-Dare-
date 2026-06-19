@@ -1,0 +1,16 @@
+{
+  "name": "train-and-dare",
+  "private": true,
+  "description": "Train&Dare – Frontend, Backend (data = JSON files, pas de DB externe)",
+  "scripts": {
+    "dev": "concurrently -n backend,frontend -c blue,green \"npm run dev --prefix train-dare-backend\" \"npm run dev --prefix train-dare-frontend\"",
+    "dev:backend": "npm run dev --prefix train-dare-backend",
+    "dev:frontend": "npm run dev --prefix train-dare-frontend"
+  },
+  "devDependencies": {
+    "concurrently": "^9.1.0"
+  },
+  "dependencies": {
+    "framer-motion": "^12.18.1"
+  }
+}

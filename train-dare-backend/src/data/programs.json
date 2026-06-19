@@ -1,0 +1,119 @@
+[
+  {
+    "id": "univers-ado-preneur",
+    "slug": "ado-preneur",
+    "titre": "Espace Ado-preneur",
+    "sousTitre": "Accompagner les jeunes de 13 à 25 ans vers l'entrepreneuriat",
+    "description": "Ateliers pratiques, projets concrets, coaching, PNL et neurosciences, éducation financière, communauté apprenante.",
+    "programmes": [
+      {
+        "id": "prog-education-ado",
+        "slug": "education-entrepreneuriat-ado",
+        "titre": "Éducation à l'entrepreneuriat pour Ados et jeunes adultes",
+        "public": "13-18 ans et 19-25 ans",
+        "duree": "48 h sur 6 mois (octobre à avril)",
+        "objectifs": ["Esprit d'entreprendre : initiative, confiance, communication, travail d'équipe, pensée critique", "Esprit d'entreprise : idéation, design thinking, BMC, négociation"],
+        "lienInscription": "education-entrepreneuriat-ado"
+      },
+      {
+        "id": "prog-pnl-ado",
+        "slug": "pnl-ados-inside-out",
+        "titre": "PNL pour Ados – Programme Inside Out",
+        "public": "13-25 ans",
+        "duree": "5 modules sur 5 semaines ou format intensif 5 jours",
+        "objectifs": ["Je me découvre (VAKOG, valeurs, talents)", "Je transforme mes pensées (croyances limitantes, estime de soi)", "Je communique avec impact (assertivité, pitch)", "Je me fixe un cap et j'agis (SMART, projet)", "Je deviens entrepreneur de ma vie (identité, vision)"],
+        "lienInscription": "pnl-ados-inside-out"
+      },
+      {
+        "id": "prog-edu-financiere",
+        "slug": "education-financiere-ado",
+        "titre": "Éducation financière pour Ados et jeunes adultes",
+        "public": "13-25 ans",
+        "duree": "Module dédié",
+        "objectifs": ["Comprendre les sources de financement", "Établir un budget", "Gérer ses ressources en autonomie"],
+        "lienInscription": "education-financiere-ado"
+      },
+      {
+        "id": "prog-bootcamp",
+        "slug": "bootcamp-vacances",
+        "titre": "Stage vacances (Bootcamp)",
+        "public": "13-25 ans",
+        "duree": "Format stage intensif",
+        "objectifs": ["Projets concrets", "Leadership, créativité, coopération", "Passer de l'idée à la réalisation"],
+        "lienInscription": "bootcamp-vacances"
+      }
+    ]
+  },
+  {
+    "id": "univers-parent-ado",
+    "slug": "parent-ado",
+    "titre": "Espace Parent & Ado",
+    "sousTitre": "Impliquer les parents dans l'aventure entrepreneuriale de leurs enfants",
+    "description": "Outiller les parents : posture de soutien, dialogue constructif, complicité intergénérationnelle, ateliers et ressources.",
+    "programmes": [
+      {
+        "id": "prog-edu-famille",
+        "slug": "education-entrepreneuriale-familiale",
+        "titre": "Programme d'éducation entrepreneuriale familiale",
+        "public": "Parents d'ados",
+        "duree": "Sur mesure",
+        "objectifs": ["Comprendre les enjeux de l'éducation entrepreneuriale", "Créer un dialogue constructif autour des aspirations"],
+        "lienInscription": "education-entrepreneuriale-familiale"
+      },
+      {
+        "id": "prog-softskills-parents",
+        "slug": "softskills-pour-parents",
+        "titre": "Softskills pour parents",
+        "public": "Parents",
+        "duree": "Ateliers",
+        "objectifs": ["Posture de coach sans pression ni jugement", "Encouragement actif"],
+        "lienInscription": "softskills-pour-parents"
+      },
+      {
+        "id": "prog-pnl-parents",
+        "slug": "pnl-au-service-des-parents",
+        "titre": "PNL au service des parents",
+        "public": "Parents",
+        "duree": "Modules dédiés",
+        "objectifs": ["Mieux communiquer avec son ado", "Accompagner le parcours entrepreneurial"],
+        "lienInscription": "pnl-au-service-des-parents"
+      }
+    ]
+  },
+  {
+    "id": "univers-enseignants",
+    "slug": "enseignants",
+    "titre": "Espace Enseignants",
+    "sousTitre": "Former les guides de demain",
+    "description": "Formations pratiques, ressources clés en main, accompagnement pour clubs et mini-projets entrepreneuriaux en établissement.",
+    "programmes": [
+      {
+        "id": "prog-pedago-entrepreneuriale",
+        "slug": "formation-pedagogie-entrepreneuriale",
+        "titre": "Formation en pédagogie entrepreneuriale",
+        "public": "Enseignants, éducateurs",
+        "duree": "Formation pratique",
+        "objectifs": ["Pédagogie entrepreneuriale en classe", "Ressources clés en main", "Clubs et mini-projets"],
+        "lienInscription": "formation-pedagogie-entrepreneuriale"
+      },
+      {
+        "id": "prog-softskills-enseignants",
+        "slug": "softskills-pour-enseignant",
+        "titre": "Softskills pour enseignant",
+        "public": "Enseignants",
+        "duree": "Ateliers",
+        "objectifs": ["Devenir passeur d'initiatives", "Intégrer l'esprit d'entreprendre au quotidien scolaire"],
+        "lienInscription": "softskills-pour-enseignant"
+      },
+      {
+        "id": "prog-pnl-enseignants",
+        "slug": "pnl-pour-enseignant",
+        "titre": "PNL pour enseignant",
+        "public": "Enseignants",
+        "duree": "Modules dédiés",
+        "objectifs": ["Encadrement d'initiatives entrepreneuriales", "Accompagnement personnalisé"],
+        "lienInscription": "pnl-pour-enseignant"
+      }
+    ]
+  }
+]

@@ -1,0 +1,121 @@
+/* Section Nos Programmes – Train&Dare
+   Couleurs et transitions pour Éducation (bleu) vs Formation (orange) */
+
+.programmes-section {
+  --color-education: #1890ff;
+  --color-education-light: #e6f4ff;
+  --color-formation: #fa8c16;
+  --color-formation-light: #fff7e6;
+}
+
+.programme-hero-card {
+  position: relative;
+  overflow: hidden;
+  border-radius: 16px;
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.programme-hero-card:hover {
+  box-shadow: 0 20px 40px rgba(0, 0, 0, 0.08);
+}
+
+.programme-hero-card--education:hover {
+  box-shadow: 0 20px 40px rgba(24, 144, 255, 0.15);
+}
+
+.programme-hero-card--formation:hover {
+  box-shadow: 0 20px 40px rgba(250, 140, 22, 0.15);
+}
+
+.programme-hero-card__accent {
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 4px;
+  border-radius: 16px 16px 0 0;
+}
+
+.programme-hero-card__body {
+  padding: 1.5rem 1.75rem;
+}
+
+.programme-hero-card__tagline {
+  font-size: 1.05rem;
+  line-height: 1.5;
+  font-style: italic;
+  opacity: 0.95;
+}
+
+.programme-hero-card__objectives {
+  list-style: none;
+  padding: 0;
+  margin: 0.75rem 0 1rem;
+}
+
+.programme-hero-card__objectives li {
+  position: relative;
+  padding-left: 1.25rem;
+  margin-bottom: 0.5rem;
+  font-size: 0.9rem;
+  line-height: 1.45;
+}
+
+.programme-hero-card__objectives li::before {
+  content: "✦";
+  position: absolute;
+  left: 0;
+  font-size: 0.75rem;
+  opacity: 0.9;
+}
+
+.programme-hero-card__spaces {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.5rem;
+  margin-top: 1rem;
+}
+
+.programme-hero-card__space-chip {
+  display: inline-flex;
+  align-items: center;
+  padding: 0.35rem 0.75rem;
+  border-radius: 9999px;
+  font-size: 0.8rem;
+  font-weight: 500;
+  text-decoration: none;
+  transition: transform 0.2s ease, opacity 0.2s ease;
+}
+
+.programme-hero-card__space-chip:hover {
+  transform: translateY(-1px);
+  opacity: 0.95;
+}
+
+.programme-hero-card__actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.75rem;
+  align-items: center;
+  margin-top: 1.25rem;
+  padding-top: 1.25rem;
+  border-top: 1px solid rgba(0, 0, 0, 0.06);
+}
+
+.programme-hero-card__link-secondary {
+  font-size: 0.875rem;
+  text-decoration: none;
+  font-weight: 500;
+  transition: opacity 0.2s ease;
+}
+
+.programme-hero-card__link-secondary:hover {
+  opacity: 0.85;
+}
+
+/* Focus visible pour accessibilité */
+.programme-hero-card a:focus-visible,
+.programme-hero-card button:focus-visible {
+  outline: 2px solid currentColor;
+  outline-offset: 2px;
+}

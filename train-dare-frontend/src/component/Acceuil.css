@@ -1,0 +1,104 @@
+/* Acceuil.css */
+.acceuil-container {
+  min-height: 100vh;
+  background-color: white;
+  text-align: center;
+  padding: 4rem 1rem;
+}
+
+@media (min-width: 768px) {
+  .acceuil-container {
+    padding: 4rem 5rem;
+  }
+}
+
+.hero-section {
+  opacity: 0;
+  transform: translateY(-30px);
+  animation: fadeInSlideDown 1s forwards;
+}
+
+@keyframes fadeInSlideDown {
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.hero-title {
+  color: #1890ff;
+  font-size: 2.25rem;
+  font-weight: bold;
+}
+
+.hero-subtitle {
+  font-style: italic;
+  color: #4a4a4a;
+}
+
+.hero-paragraph {
+  font-size: 1.125rem;
+  max-width: 48rem;
+  margin: 1rem auto 0;
+  color: #6b7280;
+}
+
+.hero-button {
+  margin-top: 1.5rem;
+  background-color: #3b82f6;
+  color: white;
+}
+
+.hero-button:hover {
+  background-color: #2563eb;
+}
+
+/* Card section */
+.program-section {
+  margin-top: 5rem;
+}
+
+.program-card {
+  border-radius: 1rem;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+  border: 2px solid;
+}
+
+.card-jeunes {
+  border-color: #1890ff;
+  background-color: #e6f7ff;
+}
+
+.card-adultes {
+  border-color: #fadb14;
+  background-color: #fffbe6;
+}
+
+.card-title-blue {
+  color: #1890ff;
+}
+
+.card-title-yellow {
+  color: #fadb14;
+}
+
+/* Testimonials */
+.testimonial-section {
+  margin-top: 6rem;
+}
+
+.testimonial-quote {
+  font-style: italic;
+  font-size: 1.25rem;
+  color: #4b5563;
+}
+
+.testimonial-author {
+  margin-top: 0.5rem;
+  color: #6b7280;
+}
+
+.testimonial-carousel {
+  max-width: 32rem;
+  margin: 1.5rem auto 0;
+}

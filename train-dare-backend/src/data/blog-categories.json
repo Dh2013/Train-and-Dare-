@@ -1,0 +1,42 @@
+[
+  {
+    "id": "cat-entrepreneuriat",
+    "name": "Entrepreneuriat",
+    "slug": "entrepreneuriat",
+    "description": "Idees, methodes et outils pour lancer des projets utiles et durables.",
+    "color": "#0E9F6E",
+    "audience": "adult",
+    "createdAt": "2026-01-01T09:00:00.000Z",
+    "updatedAt": "2026-01-01T09:00:00.000Z"
+  },
+  {
+    "id": "cat-mindset",
+    "name": "Mindset",
+    "slug": "mindset",
+    "description": "Clarte mentale, discipline et confiance pour passer a l action.",
+    "color": "#166534",
+    "audience": "adult",
+    "createdAt": "2026-01-01T09:00:00.000Z",
+    "updatedAt": "2026-01-01T09:00:00.000Z"
+  },
+  {
+    "id": "cat-pnl",
+    "name": "PNL",
+    "slug": "pnl",
+    "description": "Outils de communication et de transformation personnelle appliques au terrain.",
+    "color": "#F97316",
+    "audience": "all",
+    "createdAt": "2026-01-01T09:00:00.000Z",
+    "updatedAt": "2026-01-01T09:00:00.000Z"
+  },
+  {
+    "id": "cat-youth-development",
+    "name": "Developpement jeunesse",
+    "slug": "youth-development",
+    "description": "Contenus dynamiques pour aider les jeunes a creer, cooperer et oser.",
+    "color": "#F43F5E",
+    "audience": "youth",
+    "createdAt": "2026-01-01T09:00:00.000Z",
+    "updatedAt": "2026-01-01T09:00:00.000Z"
+  }
+]
