@@ -90,9 +90,13 @@ const ContactSection: React.FC = () => {
           </Paragraph>
         )}
         <div style={CONTACT_STYLE.contactInfo}>
-          <div><strong>📍 Adresse :</strong> Tunis, Tunisie</div>
           <div><strong>📞 Téléphone :</strong> +216 XX XXX XXX</div>
-          <div><strong>✉️ Email :</strong> contact@trainanddare.com</div>
+          <div>
+            <strong>✉️ Email :</strong>{' '}
+            <a href="mailto:trainanddareacademy@gmail.com" style={{ color: 'inherit', fontWeight: 700 }}>
+              trainanddareacademy@gmail.com
+            </a>
+          </div>
         </div>
       </div>
     </section>

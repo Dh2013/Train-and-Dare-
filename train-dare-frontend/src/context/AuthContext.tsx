@@ -1,19 +1,7 @@
-import React, { createContext, useContext, useState, useEffect, useCallback } from 'react';
+import React, { useState, useEffect, useCallback } from 'react';
 import { authApi, getStoredToken, setStoredToken, clearStoredToken } from '../api/auth';
 
-interface AuthState {
-  isAdmin: boolean;
-  loading: boolean;
-  checked: boolean;
-}
-
-interface AuthContextValue extends AuthState {
-  login: (username: string, password: string) => Promise<boolean>;
-  logout: () => void;
-  getToken: () => string | null;
-}
-
-const AuthContext = createContext<AuthContextValue | null>(null);
+import { AuthContext, type AuthState, type AuthContextValue } from './useAuth';
 
 export function AuthProvider({ children }: { children: React.ReactNode }) {
   const [state, setState] = useState<AuthState>({ isAdmin: false, loading: true, checked: false });
@@ -63,10 +51,4 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
   };
 
   return <AuthContext.Provider value={value}>{children}</AuthContext.Provider>;
-}
-
-export function useAuth(): AuthContextValue {
-  const ctx = useContext(AuthContext);
-  if (!ctx) throw new Error('useAuth must be used within AuthProvider');
-  return ctx;
 }

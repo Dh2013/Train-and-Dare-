@@ -1,4 +1,6 @@
 import React from "react";
+import Seo from './Seo';
+import { pageSeo } from '../seo/pages';
 import { Card, Row, Col, Typography, List, Collapse, Button } from "antd";
 import {
   ContainerOutlined,
@@ -27,9 +29,10 @@ const AdultPlusInfo: React.FC<AdultPlusInfoProps> = ({ onEnroll, onContact }) =>
 
   return (
     <Card variant="outlined" style={{ borderRadius: 12 }}>
+      <Seo {...pageSeo('/adult-plus-info')} />
       <Row gutter={[24, 24]} align="top">
         <Col xs={24} md={16}>
-          <Title level={3} style={{ marginBottom: 8 }}>
+          <Title level={1} style={{ marginBottom: 8 }}>
             🟡 Adultes – <Text strong>Formation Entrepreneuriale</Text>
           </Title>
           <Text type="secondary">Structuration | Validation | Croissance</Text>
@@ -119,7 +122,7 @@ const AdultPlusInfo: React.FC<AdultPlusInfoProps> = ({ onEnroll, onContact }) =>
           </Card>
 
           <Card style={{ marginTop: 16 }} variant="outlined">
-            <Title level={5}>Pourquoi ce parcours ?</Title>
+            <Title level={2}>Pourquoi ce parcours ?</Title>
             <Paragraph style={{ marginBottom: 0 }}>
               Approche pragmatique qui réduit le risque entrepreneurial via itérations rapides, validation terrain et
               accompagnement opérationnel jusqu’à la levée de fonds ou le lancement commercial.

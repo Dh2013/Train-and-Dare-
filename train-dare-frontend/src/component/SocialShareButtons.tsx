@@ -1,3 +1,4 @@
+import { canonicalUrl, siteOrigin } from '../seo/metadata';
 import { Button, message } from 'antd';
 import {
   CopyOutlined,
@@ -15,13 +16,11 @@ interface SocialShareButtonsProps {
 }
 
 function getShareUrl(url?: string): string {
-  if (url) {
-    return url;
-  }
-  if (typeof window !== 'undefined') {
-    return window.location.href;
-  }
-  return 'https://trainanddare.com';
+  if (url) return url;
+  const path = typeof window !== 'undefined' ? window.location.pathname : '/';
+  const origin = siteOrigin(import.meta.env.VITE_SITE_URL,
+    typeof window !== 'undefined' ? window.location.origin : 'http://localhost:5173')!;
+  return canonicalUrl(path, origin);
 }
 
 export default function SocialShareButtons({

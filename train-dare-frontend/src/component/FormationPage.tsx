@@ -17,9 +17,9 @@ import {
   ThunderboltOutlined,
 } from '@ant-design/icons';
 import Seo from './Seo';
-import heroAdult from '../assets/IMG_20240228_150738 (3).jpg';
-import heroWorkshop from '../assets/IMG_20231125_134053.jpg';
-import supportImage from '../assets/IMG_20240228_144718.jpg';
+import { pageSeo } from '../seo/pages';
+import adultCoaching from '../assets/IMG_20220720_100200.jpg';
+import adultTraining from '../assets/IMG_20220812_115832 (1).jpg';
 import './FormationPage.css';
 
 const { Paragraph, Text, Title } = Typography;
@@ -167,12 +167,7 @@ const FormationPage: React.FC = () => {
 
   return (
     <div className="formation-shell">
-      <Seo
-        title="Formation Entrepreneuriale"
-        description="Une page premium pour présenter l’offre Train & Dare Academy destinée aux adultes, porteurs de projet et reconversions."
-        path="/programmes/formation"
-        type="website"
-      />
+      <Seo {...pageSeo('/programmes/formation')} />
 
       <div className="formation-container">
         <Button type="text" icon={<ArrowLeftOutlined />} onClick={() => navigate('/#programmes')}>
@@ -187,7 +182,7 @@ const FormationPage: React.FC = () => {
               transition={{ duration: 0.55 }}
             >
               <span className="formation-kicker">Formation en entrepreneuriat</span>
-              <Title className="formation-display">
+              <Title level={1} className="formation-display">
                 Transformer ses idées en projet. Devenir acteur de sa vie professionnelle.
               </Title>
               <Paragraph className="formation-lead">
@@ -241,10 +236,10 @@ const FormationPage: React.FC = () => {
             >
               <div className="formation-image-stack">
                 <div className="formation-image formation-image--main">
-                  <img src={heroAdult} alt="Adultes accompagnés dans un parcours entrepreneurial" />
+                  <img src={adultCoaching} alt="Adultes accompagnés dans un parcours entrepreneurial" />
                 </div>
                 <div className="formation-image formation-image--secondary">
-                  <img src={heroWorkshop} alt="Atelier de formation Train and Dare Academy" />
+                  <img src={adultTraining} alt="Formation pour adultes Train and Dare Academy" />
                 </div>
                 <div className="formation-floating-card">
                   <StarFilled />
@@ -338,7 +333,7 @@ const FormationPage: React.FC = () => {
                       <span className="formation-module-step">{module.step}</span>
                       <Tag color="orange">{module.subtitle}</Tag>
                     </div>
-                    <Title level={4} className="formation-card-title">
+                    <Title level={3} className="formation-card-title">
                       {module.title}
                     </Title>
                     <div className="formation-bullet-list">
@@ -379,7 +374,7 @@ const FormationPage: React.FC = () => {
             </div>
 
             <div className="formation-proof-card">
-              <img src={supportImage} alt="Accompagnement professionnel Train and Dare Academy" />
+              <img src={adultTraining} alt="Session de formation adultes Train and Dare Academy" />
               <div className="formation-proof-body">
                 <span className="formation-mini-kicker">Pourquoi cette page rassure davantage</span>
                 <Title level={3} className="formation-section-title">

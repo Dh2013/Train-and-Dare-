@@ -93,6 +93,20 @@ loadDotEnvFile();
 
 const nodeEnv = process.env.NODE_ENV?.trim() || 'development';
 
+// Fail closed before any router can sign or accept production tokens.
+if (nodeEnv === 'production') {
+  const missing: string[] = [];
+  const secret = process.env.JWT_SECRET?.trim() ?? '';
+  if (secret.length < 32 || secret === 'train-dare-secret-change-in-production') missing.push('JWT_SECRET');
+  // MongoDB accounts are authoritative when MongoDB is configured.
+  if (!parseOptionalString(process.env.MONGODB_URI)) {
+    if (!process.env.ADMIN_USERNAME?.trim()) missing.push('ADMIN_USERNAME');
+    const password = process.env.ADMIN_PASSWORD ?? '';
+    if (password.trim().length < 12 || /^(admin|password|changeme|change-me)/i.test(password)) missing.push('ADMIN_PASSWORD');
+  }
+  if (missing.length) throw new Error(`Invalid production authentication configuration: ${missing.join(', ')}`);
+}
+
 const env: AppEnv = Object.freeze({
   nodeEnv,
   isProduction: nodeEnv === 'production',
@@ -130,4 +144,3 @@ export function getSecurityWarnings(): string[] {
 
   return warnings;
 }
-

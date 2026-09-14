@@ -6,11 +6,14 @@ describe('navigation constants', () => {
     expect(SECTION_IDS).toContain('accueil');
     expect(SECTION_IDS).toContain('contact');
     expect(SECTION_IDS).toContain('blog');
+    expect(SECTION_IDS).toContain('carriere');
   });
 
   it('NAV_SECTION_IDS excludes temoignages and faq', () => {
     expect(NAV_SECTION_IDS).not.toContain('temoignages');
     expect(NAV_SECTION_IDS).not.toContain('faq');
+    expect(NAV_SECTION_IDS).not.toContain('marketing-digital');
+    expect(NAV_SECTION_IDS).not.toContain('avis-clients');
     expect(NAV_SECTION_IDS).toContain('accueil');
     expect(NAV_SECTION_IDS).toContain('contact');
   });
@@ -19,6 +22,7 @@ describe('navigation constants', () => {
     expect(SECTION_LABELS['accueil']).toBe('Accueil');
     expect(SECTION_LABELS['apropos']).toBe('À propos');
     expect(SECTION_LABELS['blog']).toBe('Blog');
+    expect(SECTION_LABELS['carriere']).toBe('Carrière');
     expect(SECTION_LABELS['contact']).toBe('Contact');
   });
 });

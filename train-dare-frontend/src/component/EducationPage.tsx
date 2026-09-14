@@ -11,14 +11,14 @@ import {
   ReadOutlined,
   RocketOutlined,
   SafetyCertificateOutlined,
-  StarFilled,
   TeamOutlined,
   ThunderboltOutlined,
 } from '@ant-design/icons';
 import { programsApi, type Programme, type Univers } from '../api/programs';
 import Seo from './Seo';
-import heroYouth from '../assets/IMG_20220812_093123 (2).jpg';
-import heroWorkshop from '../assets/IMG_20231125_134053.jpg';
+import { pageSeo } from '../seo/pages';
+import heroWorkshop from '../assets/education-cooperation.jpg';
+import heroClassroom from '../assets/IMG_20231125_134053.jpg';
 import heroSupport from '../assets/IMG_20240228_144718.jpg';
 import './EducationPage.css';
 
@@ -210,12 +210,7 @@ const EducationPage: React.FC = () => {
 
   return (
     <div className="education-shell">
-      <Seo
-        title="Programme Éducation Entrepreneuriale"
-        description="Une page premium pour découvrir le parcours d’éducation entrepreneuriale Train & Dare Academy destiné aux jeunes et adolescents."
-        path="/programmes/education"
-        type="website"
-      />
+      <Seo {...pageSeo('/programmes/education')} />
 
       <div className="education-container">
         <Button type="text" icon={<ArrowLeftOutlined />} onClick={() => navigate('/#programmes')}>
@@ -246,12 +241,12 @@ const EducationPage: React.FC = () => {
                   transition={{ duration: 0.55 }}
                 >
                   <span className="education-kicker">Éducation entrepreneuriale</span>
-                  <Title className="education-display">
-                    Une page conçue pour donner envie aux jeunes d’oser, et rassurer les parents sur le sérieux du parcours.
+                  <Title level={1} className="education-display">
+                    <em>« Planter la graine entrepreneuriale dès l’adolescence pour cultiver un avenir audacieux. »</em>
                   </Title>
                   <Paragraph className="education-lead">
-                    {educationUnivers.sousTitre}. Cette page met en avant une offre claire, premium et crédible pour les
-                    jeunes, les familles et les partenaires éducatifs.
+                    Cette section est dédiée à l’éducation entrepreneuriale pour adolescents <strong>et jeunes adultes</strong>,
+                    en intégrant le fonctionnement neurologique spécifique à cette période de la vie.
                   </Paragraph>
 
                   <div className="education-action-row">
@@ -298,20 +293,53 @@ const EducationPage: React.FC = () => {
                   animate={{ opacity: 1, x: 0 }}
                   transition={{ duration: 0.6 }}
                 >
-                  <div className="education-image-stack">
-                    <div className="education-image education-image--main">
-                      <img src={heroYouth} alt="Jeunes participant à un parcours entrepreneurial Train and Dare" />
+                  <figure className="education-workshop-figure">
+                    <div className="education-workshop-photo">
+                      <img
+                        src={heroWorkshop}
+                        alt="Des jeunes réunis en cercle, les mains jointes autour de balles pendant une activité collective"
+                        width={4608}
+                        height={3456}
+                        fetchPriority="high"
+                      />
                     </div>
-                    <div className="education-image education-image--secondary">
-                      <img src={heroWorkshop} alt="Atelier collectif Train and Dare Academy" />
-                    </div>
-                    <div className="education-floating-card">
-                      <StarFilled />
-                      <span>Un univers jeune, énergique et rassurant pour les familles</span>
-                    </div>
-                  </div>
+                  </figure>
+                  <figure className="education-classroom-figure">
+                    <img src={heroClassroom} alt="Atelier collectif de formation Train and Dare Academy" />
+                  </figure>
                 </motion.div>
               </div>
+            </section>
+
+            <section className="education-section education-introduction">
+              <Row gutter={[32, 32]}>
+                <Col xs={24} lg={10}>
+                  <Title level={2} className="education-section-title">Objectifs</Title>
+                  <ul className="education-introduction-list">
+                    <li>Stimuler l’esprit d’initiative</li>
+                    <li>Développer la confiance en soi et l’autonomie</li>
+                    <li>Aider les jeunes à faire des choix éclairés</li>
+                    <li>Initier à la gestion de projet, à la créativité et à l’innovation</li>
+                  </ul>
+                </Col>
+                <Col xs={24} lg={14}>
+                  <Title level={2} className="education-section-title">Les trois espaces éducatifs</Title>
+                  <ol className="education-introduction-list">
+                    <li>
+                      <strong>Espace Ado’preneur</strong>
+                      <p>Activités, ateliers, programmes ludiques et interactifs basés sur la PNL, la pédagogie par projet, le travail en équipe et la prise de parole.</p>
+                    </li>
+                    <li>
+                      <strong>Espace Parents</strong>
+                      <p>Sessions d’information, cercles d’échange et coaching pour comprendre et accompagner le jeune dans sa transformation.</p>
+                    </li>
+                    <li>
+                      <strong>Espace Enseignants</strong>
+                      <p>Formations pédagogiques pour introduire l’esprit entrepreneurial dans les classes et intégrer des outils innovants.</p>
+                    </li>
+                  </ol>
+                </Col>
+              </Row>
             </section>
 
             <section className="education-section">
@@ -370,7 +398,7 @@ const EducationPage: React.FC = () => {
                           <Tag>{program.duree}</Tag>
                         </div>
 
-                        <Title level={4} className="education-card-title">
+                        <Title level={3} className="education-card-title">
                           {program.titre}
                         </Title>
 
@@ -442,8 +470,12 @@ const EducationPage: React.FC = () => {
               <div className="education-section-head">
                 <span className="education-section-kicker education-section-kicker--light">Écosystème</span>
                 <Title level={2} className="education-section-title education-section-title--light">
-                  Le jeune n’avance pas seul : la page relie naturellement parents, enseignants et ressources.
+                  Parce qu’un jeune ne grandit jamais seul.
                 </Title>
+                <Paragraph className="education-section-text education-section-text--center" style={{ color: 'rgba(255, 255, 255, 0.88)' }}>
+                  Train &amp; Dare réunit <strong>Familles et Enseignants</strong> autour d’un même objectif :
+                  créer un environnement qui renforce l’apprentissage, la confiance et la réussite.
+                </Paragraph>
               </div>
 
               <Row gutter={[18, 18]}>

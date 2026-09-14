@@ -2,7 +2,6 @@ import React, { useState } from 'react';
 import { Alert, Button, Form, Input, Typography } from 'antd';
 import {
   ArrowRightOutlined,
-  EnvironmentOutlined,
   GlobalOutlined,
   MailOutlined,
   ReadOutlined,
@@ -27,10 +26,10 @@ const sectionLinks = [
   { key: 'accueil', label: 'Accueil' },
   { key: 'apropos', label: 'À propos' },
   { key: 'programmes', label: 'Programmes' },
-  { key: 'marketing-digital', label: 'Marketing' },
   { key: 'coaching', label: 'Coaching' },
-  { key: 'avis-clients', label: 'Avis' },
   { key: 'blog', label: 'Blog' },
+  { key: 'faq', label: 'FAQ' },
+  { key: 'carriere', label: 'Carrière' },
   { key: 'contact', label: 'Contact' },
 ];
 
@@ -44,9 +43,27 @@ const offerLinks = [
 
 const SiteFooter: React.FC<SiteFooterProps> = ({ onSectionNavigate }) => {
   const navigate = useNavigate();
+  const [newsletterForm] = Form.useForm<NewsletterFormValues>();
   const [newsletterSuccess, setNewsletterSuccess] = useState(false);
   const [newsletterError, setNewsletterError] = useState(false);
   const [newsletterLoading, setNewsletterLoading] = useState(false);
+  const currentYear = new Date().getFullYear();
+
+  const scrollTopSoon = () => {
+    window.setTimeout(() => window.scrollTo({ top: 0, left: 0, behavior: 'smooth' }), 0);
+  };
+
+  const goToRoute = (path: string) => {
+    navigate(path);
+    scrollTopSoon();
+  };
+
+  const goToSection = (section: string) => {
+    onSectionNavigate(section);
+    if (section === 'blog') {
+      scrollTopSoon();
+    }
+  };
 
   const onFinishNewsletter = async (values: NewsletterFormValues) => {
     setNewsletterSuccess(false);
@@ -57,9 +74,10 @@ const SiteFooter: React.FC<SiteFooterProps> = ({ onSectionNavigate }) => {
         email: values.email.trim(),
         source: 'footer-newsletter',
         segments: ['all'],
-        tags: ['footer', 'email-marketing'],
+        tags: ['footer', 'newsletter'],
       });
       trackConversion('newsletter_signup', { location: 'footer' });
+      newsletterForm.resetFields();
       setNewsletterSuccess(true);
       setTimeout(() => setNewsletterSuccess(false), 3000);
     } catch {
@@ -70,17 +88,17 @@ const SiteFooter: React.FC<SiteFooterProps> = ({ onSectionNavigate }) => {
   };
 
   return (
-    <footer className="site-footer">
+    <footer id="site-footer" className="site-footer">
       <div className="site-footer__container">
         <section className="site-footer__banner">
           <div>
             <span className="site-footer__kicker">Train & Dare Academy</span>
             <Title level={2} className="site-footer__banner-title">
-              Un footer à la hauteur d’une marque qui inspire confiance, ambition et passage à l’action.
+              Prêt à construire un parcours qui donne envie d’oser ?
             </Title>
             <Paragraph className="site-footer__copy">
-              Entrepreneuriat, mindset, développement jeunesse et transformation professionnelle : tout l’univers Train &
-              Dare Academy se retrouve ici dans un espace plus premium, plus clair et plus rassurant.
+              Retrouvez les accès essentiels pour découvrir les programmes, demander un échange ou rejoindre la
+              communauté Train & Dare Academy.
             </Paragraph>
           </div>
 
@@ -90,11 +108,11 @@ const SiteFooter: React.FC<SiteFooterProps> = ({ onSectionNavigate }) => {
               size="large"
               icon={<ArrowRightOutlined />}
               iconPosition="end"
-              onClick={() => onSectionNavigate('contact')}
+              onClick={() => goToSection('contact')}
             >
               Demander un échange
             </Button>
-            <Button size="large" onClick={() => navigate('/blog')}>
+            <Button size="large" onClick={() => goToRoute('/blog')}>
               Explorer le blog
             </Button>
           </div>
@@ -102,9 +120,14 @@ const SiteFooter: React.FC<SiteFooterProps> = ({ onSectionNavigate }) => {
 
         <section className="site-footer__grid">
           <div className="site-footer__brand">
-            <div className="site-footer__brand-mark">
+            <button
+              type="button"
+              className="site-footer__brand-mark"
+              onClick={() => goToSection('accueil')}
+              aria-label="Retour à l’accueil"
+            >
               <img src="/logo T&D.pdf (2).svg" alt="Logo Train and Dare Academy" />
-            </div>
+            </button>
             <div>
               <Title level={4} className="site-footer__brand-title">
                 Train & Dare Academy
@@ -130,7 +153,7 @@ const SiteFooter: React.FC<SiteFooterProps> = ({ onSectionNavigate }) => {
                   key={link.key}
                   type="button"
                   className="site-footer__link"
-                  onClick={() => onSectionNavigate(link.key)}
+                  onClick={() => goToSection(link.key)}
                 >
                   {link.label}
                 </button>
@@ -146,7 +169,7 @@ const SiteFooter: React.FC<SiteFooterProps> = ({ onSectionNavigate }) => {
                   key={link.path}
                   type="button"
                   className="site-footer__link"
-                  onClick={() => navigate(link.path)}
+                  onClick={() => goToRoute(link.path)}
                 >
                   {link.label}
                 </button>
@@ -157,14 +180,10 @@ const SiteFooter: React.FC<SiteFooterProps> = ({ onSectionNavigate }) => {
           <div className="site-footer__column">
             <Text className="site-footer__label">Contact & Ressources</Text>
             <div className="site-footer__contact-list">
-              <div>
-                <EnvironmentOutlined />
-                <span>Tunis, Tunisie</span>
-              </div>
-              <div>
+              <a className="site-footer__contact-link" href="mailto:trainanddareacademy@gmail.com">
                 <MailOutlined />
-                <span>contact@trainanddare.com</span>
-              </div>
+                <span>trainanddareacademy@gmail.com</span>
+              </a>
               <div>
                 <TeamOutlined />
                 <span>Jeunes, adultes, familles et partenaires éducatifs</span>
@@ -176,10 +195,10 @@ const SiteFooter: React.FC<SiteFooterProps> = ({ onSectionNavigate }) => {
             </div>
 
             <div className="site-footer__mini-links">
-              <Button type="link" icon={<RocketOutlined />} onClick={() => navigate('/programmes/formation')}>
+              <Button type="link" icon={<RocketOutlined />} onClick={() => goToRoute('/programmes/formation')}>
                 Voir la formation adultes
               </Button>
-              <Button type="link" icon={<ReadOutlined />} onClick={() => navigate('/blog')}>
+              <Button type="link" icon={<ReadOutlined />} onClick={() => goToRoute('/blog')}>
                 Lire les articles
               </Button>
             </div>
@@ -198,10 +217,11 @@ const SiteFooter: React.FC<SiteFooterProps> = ({ onSectionNavigate }) => {
           </div>
 
           <div className="site-footer__newsletter-form">
-            <Form name="newsletter" onFinish={onFinishNewsletter} layout="vertical">
+            <Form form={newsletterForm} name="newsletter" onFinish={onFinishNewsletter} layout="vertical">
               <div className="site-footer__newsletter-row">
                 <Item
                   name="email"
+                  label="Adresse e-mail"
                   style={{ marginBottom: 0, flex: 1 }}
                   rules={[
                     { required: true, message: 'Votre email est requis.' },
@@ -223,7 +243,7 @@ const SiteFooter: React.FC<SiteFooterProps> = ({ onSectionNavigate }) => {
             )}
             {newsletterError && (
               <Alert
-                message="Impossible d enregistrer l email pour le moment."
+                message="Impossible d’enregistrer l’email pour le moment."
                 type="error"
                 showIcon
                 style={{ marginTop: 14 }}
@@ -233,7 +253,7 @@ const SiteFooter: React.FC<SiteFooterProps> = ({ onSectionNavigate }) => {
         </section>
 
         <section className="site-footer__bottom">
-          <Text className="site-footer__bottom-copy">© 2025 Train & Dare Academy. Tous droits réservés.</Text>
+          <Text className="site-footer__bottom-copy">© {currentYear} Train & Dare Academy. Tous droits réservés.</Text>
           <Text className="site-footer__bottom-copy">
             Entrepreneuriat • Développement personnel • Leadership • Transformation
           </Text>

@@ -79,7 +79,16 @@ interface JsonEnrollment {
   receivedAt?: string;
 }
 
-const dataDir = path.join(process.cwd(), 'src', 'data');
+function resolveDataDir(): string {
+  const candidates = [
+    path.join(process.cwd(), 'src', 'data'),
+    path.join(process.cwd(), 'dist', 'data'),
+  ];
+
+  return candidates.find((candidate) => fs.existsSync(candidate)) || candidates[0];
+}
+
+const dataDir = resolveDataDir();
 
 function readJsonFile<T>(filename: string, fallback: T): T {
   const filePath = path.join(dataDir, filename);

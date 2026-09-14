@@ -12,8 +12,6 @@ import {
   ArrowRightOutlined,
   CalendarOutlined,
   CompassOutlined,
-  EnvironmentOutlined,
-  FileTextOutlined,
   GlobalOutlined,
   HeartOutlined,
   MailOutlined,
@@ -32,20 +30,11 @@ import { contactApi } from '../api/contact';
 import type { ContactFormValues } from '../types/forms';
 import { trackConversion, trackEvent } from '../lib/analytics';
 import Seo from './Seo';
-import {
-  ClientReviewsSection,
-  ConversionHighlights,
-  DigitalMarketingSection,
-  EmailMarketingSection,
-} from './MarketingSections';
+import { pageSeo } from '../seo/pages';
 import badge from '../assets/badge  najla formatrice. (1).jpg';
-import cvPDF from '../assets/cv najla ben haj maouia formatrice CNFCPP.pdf';
 import heroAdult from '../assets/IMG_20240228_150738 (3).jpg';
-import heroYouth from '../assets/IMG_20220812_093123 (2).jpg';
-import heroWorkshop from '../assets/IMG_20231125_134053.jpg';
-import gallery1 from '../assets/IMG_20220720_100200.jpg';
-import gallery2 from '../assets/IMG_20220812_115832 (1).jpg';
-import gallery3 from '../assets/IMG_20240228_144718.jpg';
+import homeHeroBackground from '../assets/TRAIN&DARE ACADEMY 2.jpg';
+import heroWorkshop from '../assets/lyvee.jpg';
 import './HomePage.css';
 
 const { Paragraph, Text, Title } = Typography;
@@ -106,6 +95,43 @@ const methodPillars = [
     title: 'Construire la crédibilité',
     body: 'Chaque parcours vise des résultats visibles : posture, pitch, structure de projet, vision et capacité à convaincre.',
   },
+];
+
+const academyValues = [
+  {
+    icon: <HeartOutlined />,
+    title: 'Bienveillance',
+    body: 'Nous croyons qu’un jeune progresse mieux lorsqu’il se sent écouté, respecté et encouragé.',
+  },
+  {
+    icon: <SafetyCertificateOutlined />,
+    title: 'Confiance',
+    body: 'Nous aidons chaque apprenant à reconnaître sa valeur, ses forces et son potentiel.',
+  },
+  {
+    icon: <ThunderboltOutlined />,
+    title: 'Créativité',
+    body: 'Nous encourageons les jeunes à imaginer, proposer, créer et penser différemment.',
+  },
+  {
+    icon: <CompassOutlined />,
+    title: 'Responsabilité',
+    body: 'Nous accompagnons les jeunes pour qu’ils deviennent acteurs de leurs choix et de leur avenir.',
+  },
+  {
+    icon: <StarFilled />,
+    title: 'Excellence humaine',
+    body: 'Nous visons le développement global de la personne : savoir, savoir-faire et savoir-être.',
+  },
+];
+
+const partnerLogos = [
+  { initials: 'EDU', name: 'Écoles partenaires', meta: 'Ateliers & projets' },
+  { initials: 'INST', name: 'Institutions éducatives', meta: 'Programmes jeunesse' },
+  { initials: 'ASSO', name: 'Associations jeunesse', meta: 'Impact local' },
+  { initials: 'ENT', name: 'Entreprises engagées', meta: 'Mentorat & terrain' },
+  { initials: 'EXP', name: 'Experts & coachs', meta: 'Soft skills' },
+  { initials: 'FORM', name: 'Centres de formation', meta: 'Parcours structurés' },
 ];
 
 const coachingTracks = [
@@ -182,11 +208,23 @@ const sectionVariant = {
   visible: { opacity: 1, y: 0 },
 };
 
+interface CareerFormValues {
+  name: string;
+  email: string;
+  phone?: string;
+  profile: string;
+  portfolio?: string;
+  message: string;
+}
+
 const HomePage: React.FC = () => {
   const navigate = useNavigate();
   const [form] = Form.useForm<ContactFormValues>();
+  const [careerForm] = Form.useForm<CareerFormValues>();
   const [sending, setSending] = useState(false);
+  const [careerSending, setCareerSending] = useState(false);
   const [feedback, setFeedback] = useState<{ type: 'success' | 'error'; text: string } | null>(null);
+  const [careerFeedback, setCareerFeedback] = useState<{ type: 'success' | 'error'; text: string } | null>(null);
 
   const scrollToSection = (sectionId: string) => {
     const element = document.getElementById(sectionId);
@@ -221,24 +259,62 @@ const HomePage: React.FC = () => {
     }
   };
 
+  const onCareerFinish = async (values: CareerFormValues) => {
+    setCareerFeedback(null);
+    setCareerSending(true);
+    try {
+      await contactApi.send({
+        name: values.name,
+        email: values.email,
+        phone: values.phone,
+        subject: `Candidature carrière - ${values.profile}`,
+        sourcePage: 'homepage_carriere',
+        message: [
+          `Profil recherché : ${values.profile}`,
+          `Téléphone : ${values.phone || 'Non renseigné'}`,
+          `Lien CV / portfolio : ${values.portfolio || 'Non renseigné'}`,
+          '',
+          'Motivation :',
+          values.message,
+        ].join('\n'),
+      });
+      trackConversion('career_application', {
+        location: 'homepage_carriere',
+        profile: values.profile,
+      });
+      setCareerFeedback({
+        type: 'success',
+        text: 'Votre candidature a bien été envoyée. L’équipe Train & Dare vous répondra rapidement.',
+      });
+      message.success('Candidature envoyée.');
+      careerForm.resetFields();
+    } catch {
+      setCareerFeedback({
+        type: 'error',
+        text: 'Impossible d’envoyer la candidature pour le moment. Merci de réessayer ou d’écrire directement par email.',
+      });
+      message.error('Échec de l’envoi de la candidature.');
+    } finally {
+      setCareerSending(false);
+    }
+  };
+
   return (
     <div className="home-shell">
-      <Seo
-        title="Train & Dare Academy"
-        description="Académie d’entrepreneuriat et de développement personnel pour jeunes, adultes et porteurs de projets."
-        path="/"
-        type="website"
-        keywords={[
-          'formation entrepreneuriat',
-          'coaching mindset',
-          'education entrepreneuriale',
-          'PNL',
-          'developpement personnel',
-          'Train and Dare Academy',
-        ]}
-      />
+      <Seo {...pageSeo('/')} />
 
-      <section id="accueil" className="home-hero">
+      <section
+        id="accueil"
+        className="home-hero"
+        style={{
+          '--home-hero-bg': `url("${heroAdult}")`,
+          '--home-hero-bg-secondary': `url("${homeHeroBackground}")`,
+          '--home-hero-bg-third': `url("${heroWorkshop}")`,
+        } as React.CSSProperties}
+      >
+        <div className="home-hero-photo home-hero-photo--primary" aria-hidden="true" />
+        <div className="home-hero-photo home-hero-photo--secondary" aria-hidden="true" />
+        <div className="home-hero-photo home-hero-photo--third" aria-hidden="true" />
         <div className="home-container">
           <motion.div
             className="home-hero-grid"
@@ -252,10 +328,12 @@ const HomePage: React.FC = () => {
             }}
           >
             <motion.div className="home-hero-copy" variants={sectionVariant}>
-              <span className="home-kicker">Train & Dare Academy</span>
-              <Title className="home-display">
+              <Title level={1} className="home-display">
                 Une académie qui fait grandir l’audace, la vision et la capacité d’entreprendre.
               </Title>
+              <Paragraph className="home-welcome hero-desc">
+                Bienvenue à Train and Dare Academy, un centre innovant d’éducation et de formation en entrepreneuriat et développement personnel.
+              </Paragraph>
               <Paragraph className="home-lead">
                 Train & Dare Academy accompagne les jeunes dans leur éveil entrepreneurial et les adultes dans la
                 concrétisation de leurs projets, avec une approche qui relie pédagogie active, PNL, neurosciences et
@@ -304,48 +382,10 @@ const HomePage: React.FC = () => {
                   <Text className="home-metric-label">3 espaces dédiés</Text>
                   <strong>Jeunes, parents, enseignants</strong>
                 </div>
-                <div className="home-metric-card">
-                  <Text className="home-metric-label">Approche premium</Text>
-                  <strong>Mindset, méthode et action</strong>
-                </div>
               </div>
-              <ConversionHighlights />
             </motion.div>
 
-            <motion.div className="home-hero-visual" variants={sectionVariant}>
-              <div className="home-visual-stack">
-                <div className="home-visual-card home-visual-card--primary">
-                  <img src={heroAdult} alt="Adultes accompagnés par Train and Dare Academy" />
-                </div>
-                <div className="home-visual-card home-visual-card--secondary">
-                  <img src={heroYouth} alt="Jeunes en atelier entrepreneurial" />
-                </div>
-                <div className="home-floating-note">
-                  <StarFilled />
-                  <span>Une marque qui inspire confiance et passage à l’action</span>
-                </div>
-              </div>
-            </motion.div>
           </motion.div>
-        </div>
-      </section>
-
-      <section className="home-gallery-band" aria-label="Moments de formation et d’accompagnement">
-        <div className="home-container">
-          <div className="home-gallery-grid">
-            {[gallery1, gallery2, gallery3, heroWorkshop].map((image, index) => (
-              <motion.div
-                key={image}
-                className={`home-gallery-card home-gallery-card--${index + 1}`}
-                initial={{ opacity: 0, y: 18 }}
-                whileInView={{ opacity: 1, y: 0 }}
-                viewport={{ once: true, margin: '-80px' }}
-                transition={{ duration: 0.5, delay: index * 0.08 }}
-              >
-                <img src={image} alt="Séquence Train and Dare Academy" />
-              </motion.div>
-            ))}
-          </div>
         </div>
       </section>
 
@@ -366,58 +406,239 @@ const HomePage: React.FC = () => {
             <motion.div className="home-section-copy" variants={sectionVariant}>
               <span className="home-section-kicker">À propos</span>
               <Title level={2} className="home-section-title">
-                Une vision ambitieuse de l’éducation entrepreneuriale et de la transformation personnelle.
+                Oser apprendre. Oser grandir. Oser construire son avenir.
               </Title>
               <Paragraph className="home-section-text">
-                Fondée par Najla Ben Haj Maouia, Train & Dare Academy défend une conviction simple : l’esprit
-                entrepreneurial s’éveille, se travaille et se transmet. L’académie aide chaque participant à relier
-                potentiel intérieur, méthodes concrètes et passage à l’action.
+                Train&amp;Dare Academy est une académie dédiée au développement personnel, professionnel
+                et entrepreneurial des adolescents, des jeunes et de toute personne souhaitant révéler son
+                potentiel.
               </Paragraph>
+              <Paragraph className="home-section-text">
+                Notre mission est d’accompagner chaque apprenant à mieux se connaître, à développer ses
+                compétences, à renforcer son estime et sa confiance en soi, et à devenir acteur de son avenir.
+              </Paragraph>
+              <Paragraph className="home-section-text">
+                Dans un monde en constante évolution, les connaissances scolaires ne suffisent plus. Les
+                jeunes ont aujourd’hui besoin de développer des compétences humaines essentielles : la
+                communication, la créativité, l’intelligence émotionnelle, l’esprit d’initiative, la confiance en
+                soi et la capacité à entreprendre.
+              </Paragraph>
+              <Paragraph className="home-section-text">
+                C’est dans cette vision que Train&amp;Dare Academy a été créée.
+              </Paragraph>
+
+              <div className="home-founder-section">
+                <span className="home-mini-kicker">Notre fondatrice</span>
+                <Title level={3} className="home-founder-title">
+                  Najla Ben Haj Maouia
+                </Title>
+                <Paragraph className="home-section-text">
+                  Train&amp;Dare Academy a été fondée par Najla Ben Haj Maouia, professeure d’économie,
+                  chercheuse en éducation entrepreneuriale, coach personnelle et professionnelle,
+                  coach d’adolescents certifiée par la Haute École de
+                  Coaching de Paris – RNCP niveau 7 Européen.
+                </Paragraph>
+                <Text className="home-founder-list-label">Elle est également :</Text>
+                <div className="home-proof-list home-proof-list--founder">
+                  <span><SafetyCertificateOutlined /> Praticienne certifiée en PNL</span>
+                  <span><GlobalOutlined /> Praticienne certifiée en neurosciences cognitives et comportementales</span>
+                  <span><ReadOutlined /> Formatrice et facilitatrice en communication, soft skills et entrepreneuriat</span>
+                  <span><TeamOutlined /> Formatrice CNFCPP – Centre National de Formation Continue et de Promotion Professionnelle</span>
+                </div>
+                <Paragraph className="home-section-text">
+                  Afin de valoriser son parcours professionnel et son engagement dans la formation, Najla Ben
+                  Haj Maouia dispose également du badge Formatrice CNFCPP, qui témoigne de son appartenance
+                  au domaine de la formation continue et de la promotion professionnelle.
+                </Paragraph>
+
+                <div className="home-founder-origin">
+                  <Title level={3} className="home-founder-title home-founder-title--origin">
+                    L’origine de Train&amp;Dare Academy
+                  </Title>
+                  <Paragraph className="home-section-text">
+                    Train &amp; Dare Academy est née d’une conviction :
+                  </Paragraph>
+                  <blockquote className="home-founder-quote">
+                    On ne naît pas entrepreneur, on le devient. Et tout commence par un voyage intérieur.
+                  </blockquote>
+                  <Paragraph className="home-section-text">
+                    Nous croyons que chaque personne, quel que soit son âge, peut développer son potentiel
+                    entrepreneurial.
+                  </Paragraph>
+                  <Paragraph className="home-section-text">
+                    L’idée de Train&amp;Dare Academy est née d’une réalité observée sur le terrain. En tant que
+                    professeure proche des adolescents, Najla Ben Haj Maouia a constaté que beaucoup de jeunes
+                    possèdent un potentiel énorme, mais manquent parfois de confiance, d’orientation, de motivation
+                    ou d’outils pour s’exprimer et se projeter dans l’avenir.
+                  </Paragraph>
+                  <Paragraph className="home-section-text">
+                    Certains jeunes ont des idées, mais n’osent pas les partager. D’autres ont des talents, mais ne
+                    savent pas encore comment les développer. Beaucoup veulent réussir, mais ont besoin d’un
+                    accompagnement adapté à leur âge, à leur personnalité et à leurs ambitions.
+                  </Paragraph>
+                  <Paragraph className="home-section-text">
+                    Train&amp;Dare Academy est née de cette conviction forte : chaque adolescent peut apprendre à croire
+                    en lui, à développer ses compétences, à libérer sa créativité et à devenir une force positive pour
+                    lui-même, sa famille et son pays.
+                  </Paragraph>
+                </div>
+              </div>
 
               <div className="home-value-grid">
                 <div className="home-value-card">
                   <CompassOutlined />
                   <div>
                     <strong>Notre vision</strong>
-                    <p>Un monde où jeunes et adultes osent entreprendre leur vie avec sens, courage et responsabilité.</p>
+                    <p>
+                      Nous croyons que l’éducation de demain doit former des jeunes confiants, créatifs,
+                      responsables et capables d’agir.
+                    </p>
+                    <p>
+                      Notre vision est de contribuer à l’émergence d’une nouvelle génération de jeunes leaders,
+                      entrepreneurs, créateurs et citoyens engagés, capables de construire leur avenir et de participer
+                      activement au progrès de leur pays.
+                    </p>
+                    <p>
+                      Train&amp;Dare Academy ne se limite pas à transmettre des connaissances. Elle aide les jeunes à
+                      développer une posture, une mentalité et des compétences utiles dans la vie réelle.
+                    </p>
                   </div>
                 </div>
                 <div className="home-value-card">
                   <HeartOutlined />
                   <div>
-                    <strong>Notre mission</strong>
-                    <p>Développer le potentiel entrepreneurial par le coaching, l’éducation active et le travail sur la posture mentale.</p>
+                    <strong>Notre approche</strong>
+                    <p>
+                      Notre accompagnement repose sur une méthode à la fois pédagogique, pratique et humaine.
+                    </p>
+                    <p>
+                      Nous combinons le coaching, la PNL, les neurosciences cognitives et comportementales, les
+                      soft skills et l’entrepreneuriat pour proposer une expérience d’apprentissage complète.
+                    </p>
+                    <p>Nos formations permettent aux jeunes de :</p>
+                    <ul className="home-value-list">
+                      <li>renforcer leur confiance en eux</li>
+                      <li>mieux communiquer</li>
+                      <li>développer leur créativité</li>
+                      <li>gérer leurs émotions</li>
+                      <li>prendre des décisions</li>
+                      <li>travailler en équipe</li>
+                      <li>transformer leurs idées en projets concrets</li>
+                    </ul>
+                    <p>
+                      Chaque formation est pensée pour être interactive, dynamique et adaptée aux besoins des
+                      apprenants.
+                    </p>
+                  </div>
+                </div>
+              </div>
+
+              <div className="home-values-showcase">
+                <div className="home-values-head">
+                  <span className="home-mini-kicker">Nos valeurs</span>
+                  <Title level={3} className="home-founder-title home-founder-title--origin">
+                    Les repères qui guident chaque accompagnement.
+                  </Title>
+                </div>
+                <div className="home-values-grid">
+                  {academyValues.map((value) => (
+                    <article className="home-principle-card" key={value.title}>
+                      <div className="home-principle-icon">{value.icon}</div>
+                      <div>
+                        <strong>{value.title}</strong>
+                        <p>{value.body}</p>
+                      </div>
+                    </article>
+                  ))}
+                </div>
+              </div>
+
+              <div className="home-choice-panel">
+                <div className="home-choice-icon">
+                  <RocketOutlined />
+                </div>
+                <div>
+                  <Title level={3} className="home-founder-title home-founder-title--origin">
+                    Pourquoi choisir Train&amp;Dare Academy ?
+                  </Title>
+                  <Paragraph className="home-section-text">
+                    Choisir Train&amp;Dare Academy, c’est choisir un espace d’apprentissage moderne, rassurant et
+                    motivant.
+                  </Paragraph>
+                  <Paragraph className="home-section-text">
+                    C’est bénéficier d’un accompagnement assuré par une fondatrice expérimentée, certifiée et
+                    engagée dans le développement des jeunes.
+                  </Paragraph>
+                  <Paragraph className="home-section-text">
+                    Grâce à son parcours en enseignement, coaching, PNL, neurosciences, communication, soft
+                    skills, entrepreneuriat et formation CNFCPP, Najla Ben Haj Maouia propose une approche
+                    complète, sérieuse et humaine.
+                  </Paragraph>
+                  <Paragraph className="home-section-text">
+                    Notre objectif est d’aider chaque jeune à apprendre, oser, créer et réussir.
+                  </Paragraph>
+                </div>
+              </div>
+
+              <div className="home-commitment-panel">
+                <Title level={3} className="home-founder-title home-founder-title--origin">
+                  Notre engagement
+                </Title>
+                <Paragraph className="home-section-text">
+                  Chez Train&amp;Dare Academy, nous croyons que chaque jeune porte en lui une capacité
+                  unique à apprendre, évoluer et réussir.
+                </Paragraph>
+                <Paragraph className="home-section-text">
+                  Notre rôle est de l’aider à découvrir cette capacité, à la développer et à la transformer en
+                  actions concrètes.
+                </Paragraph>
+                <strong>Train&amp;Dare Academy : apprendre, oser, réussir.</strong>
+              </div>
+
+              <div className="home-partner-panel">
+                <div className="home-partner-head">
+                  <span className="home-mini-kicker">Notre Partenaire</span>
+                  <Title level={3} className="home-founder-title home-founder-title--origin">
+                    Des collaborations construites autour de l’impact éducatif.
+                  </Title>
+                </div>
+                <Paragraph className="home-section-text">
+                  Train&amp;Dare Academy s’entoure de partenaires éducatifs, institutionnels et professionnels
+                  qui partagent la même ambition : accompagner les jeunes vers plus de confiance, de créativité
+                  et d’autonomie.
+                </Paragraph>
+                <Paragraph className="home-section-text">
+                  Ensemble, nous construisons des ateliers, programmes et projets adaptés aux besoins réels des
+                  apprenants, avec une approche sérieuse, humaine et orientée résultats.
+                </Paragraph>
+                <div className="home-partner-marquee" aria-label="Logos partenaires">
+                  <div className="home-partner-track">
+                    {[...partnerLogos, ...partnerLogos].map((partner, index) => (
+                      <div
+                        className="home-partner-logo"
+                        key={`${partner.name}-${index}`}
+                        aria-hidden={index >= partnerLogos.length}
+                      >
+                        <span>{partner.initials}</span>
+                        <strong>{partner.name}</strong>
+                        <small>{partner.meta}</small>
+                      </div>
+                    ))}
                   </div>
                 </div>
               </div>
             </motion.div>
 
-            <motion.div className="home-founder-card" variants={sectionVariant}>
-              <div className="home-founder-media">
+            <motion.div className="home-founder-card home-founder-card--badge" variants={sectionVariant}>
+              <div className="home-founder-media home-founder-media--discreet">
                 <img src={badge} alt="Badge formatrice Train and Dare Academy" />
               </div>
-              <div className="home-founder-body">
-                <span className="home-mini-kicker">Leadership pédagogique</span>
-                <Title level={3} className="home-section-title">
-                  Najla Ben Haj Maouia
-                </Title>
-                <Paragraph className="home-section-text">
-                  Une posture d’accompagnement qui croise entrepreneuriat, neurosciences, PNL et pédagogie
-                  transformationnelle pour bâtir des parcours crédibles et humains.
-                </Paragraph>
-                <div className="home-proof-list">
-                  <span><SafetyCertificateOutlined /> Approche professionnelle et structurée</span>
-                  <span><GlobalOutlined /> Positionnement clair pour institutions, familles et adultes</span>
-                  <span><ReadOutlined /> Contenu transmissible, actionnable et différenciant</span>
-                </div>
-                <Button
-                  icon={<FileTextOutlined />}
-                  href={cvPDF}
-                  target="_blank"
-                  rel="noopener noreferrer"
-                >
-                  Voir le CV
-                </Button>
+              <div className="home-founder-body home-founder-body--compact">
+                <span className="home-mini-kicker">Badge professionnel</span>
+                <Text className="home-founder-badge-caption">Formatrice CNFCPP</Text>
+                <Text className="home-founder-badge-caption home-founder-badge-caption--muted">
+                  Centre National de Formation Continue et de Promotion Professionnelle
+                </Text>
               </div>
             </motion.div>
           </motion.div>
@@ -501,8 +722,6 @@ const HomePage: React.FC = () => {
         </div>
       </section>
 
-      <DigitalMarketingSection />
-
       <section id="coaching" className="home-section">
         <div className="home-container">
           <div className="home-section-head">
@@ -556,8 +775,6 @@ const HomePage: React.FC = () => {
         </div>
       </section>
 
-      <ClientReviewsSection />
-
       <section id="temoignages" className="home-section home-section--dark">
         <div className="home-container">
           <div className="home-section-head">
@@ -602,26 +819,6 @@ const HomePage: React.FC = () => {
         </div>
       </section>
 
-      <section className="home-section">
-        <div className="home-container">
-          <div className="home-insight-card">
-            <div>
-              <span className="home-section-kicker">SEO & contenu</span>
-              <Title level={3} className="home-section-title">
-                Le blog renforce l’expertise perçue et soutient la visibilité de la marque.
-              </Title>
-              <Paragraph className="home-section-text">
-                Articles sur l’entrepreneuriat, le mindset, la PNL et le développement personnel : un levier puissant pour
-                attirer les bons publics et nourrir la confiance avant la prise de contact.
-              </Paragraph>
-            </div>
-            <Button size="large" onClick={() => navigate('/blog')}>
-              Explorer le blog
-            </Button>
-          </div>
-        </div>
-      </section>
-
       <section id="faq" className="home-section home-section--soft">
         <div className="home-container">
           <div className="home-section-head">
@@ -639,7 +836,109 @@ const HomePage: React.FC = () => {
         </div>
       </section>
 
-      <EmailMarketingSection />
+      <section id="carriere" className="home-section home-career">
+        <div className="home-container">
+          <div className="home-career-grid">
+            <motion.div
+              className="home-career-copy"
+              initial={{ opacity: 0, x: -18 }}
+              whileInView={{ opacity: 1, x: 0 }}
+              viewport={{ once: true, margin: '-80px' }}
+              transition={{ duration: 0.5 }}
+            >
+              <span className="home-section-kicker">Carrière</span>
+              <Title level={2} className="home-section-title">
+                Rejoindre une académie qui aide les jeunes à apprendre, oser et réussir.
+              </Title>
+              <Paragraph className="home-section-text">
+                Train&amp;Dare Academy recherche des profils engagés, pédagogues et humains pour contribuer à des
+                parcours autour du développement personnel, des soft skills, du coaching et de l’entrepreneuriat.
+              </Paragraph>
+
+              <div className="home-career-points">
+                <div>
+                  <TeamOutlined />
+                  <span>Formateurs, coachs, facilitateurs et intervenants spécialisés</span>
+                </div>
+                <div>
+                  <SafetyCertificateOutlined />
+                  <span>Une posture sérieuse, bienveillante et adaptée aux jeunes</span>
+                </div>
+                <div>
+                  <RocketOutlined />
+                  <span>Des missions orientées impact, créativité et passage à l’action</span>
+                </div>
+              </div>
+            </motion.div>
+
+            <motion.div
+              className="home-career-form-card"
+              initial={{ opacity: 0, x: 18 }}
+              whileInView={{ opacity: 1, x: 0 }}
+              viewport={{ once: true, margin: '-80px' }}
+              transition={{ duration: 0.5 }}
+            >
+              <Form form={careerForm} layout="vertical" onFinish={onCareerFinish}>
+                <Form.Item name="name" label="Nom complet" rules={[{ required: true, message: 'Votre nom est requis.' }]}>
+                  <Input size="large" placeholder="Votre nom complet" />
+                </Form.Item>
+                <Form.Item
+                  name="email"
+                  label="Email"
+                  rules={[
+                    { required: true, message: 'Votre email est requis.' },
+                    { type: 'email', message: 'Entrez un email valide.' },
+                  ]}
+                >
+                  <Input size="large" placeholder="vous@exemple.com" />
+                </Form.Item>
+                <Form.Item name="phone" label="Téléphone">
+                  <Input size="large" placeholder="+216 ..." />
+                </Form.Item>
+                <Form.Item
+                  name="profile"
+                  label="Profil / domaine"
+                  rules={[{ required: true, message: 'Indiquez votre profil ou domaine.' }]}
+                >
+                  <Input size="large" placeholder="Coach, formateur, communication, entrepreneuriat..." />
+                </Form.Item>
+                <Form.Item name="portfolio" label="Lien CV ou portfolio">
+                  <Input size="large" placeholder="Lien LinkedIn, Drive, portfolio..." />
+                </Form.Item>
+                <Form.Item
+                  name="message"
+                  label="Motivation"
+                  rules={[{ required: true, message: 'Présentez brièvement votre motivation.' }]}
+                >
+                  <TextArea
+                    rows={5}
+                    placeholder="Présentez votre expérience, vos compétences et le type de collaboration souhaité."
+                  />
+                </Form.Item>
+                <Button
+                  htmlType="submit"
+                  type="primary"
+                  size="large"
+                  icon={<SendOutlined />}
+                  loading={careerSending}
+                  block
+                >
+                  Envoyer la candidature
+                </Button>
+              </Form>
+
+              {careerFeedback && (
+                <Alert
+                  style={{ marginTop: 16 }}
+                  type={careerFeedback.type}
+                  message={careerFeedback.text}
+                  showIcon
+                />
+              )}
+            </motion.div>
+          </div>
+        </div>
+      </section>
 
       <section id="contact" className="home-section home-contact">
         <div className="home-container">
@@ -652,23 +951,12 @@ const HomePage: React.FC = () => {
               transition={{ duration: 0.5 }}
             >
               <span className="home-section-kicker">Contact</span>
-              <Title level={2} className="home-section-title">
-                Construisons un parcours qui donne envie d’oser et les moyens de réussir.
-              </Title>
-              <Paragraph className="home-section-text">
-                Que vous soyez une famille, un adulte en transition, une école ou une institution, Train & Dare Academy
-                peut construire une expérience claire, motivante et crédible autour de vos objectifs.
-              </Paragraph>
-
+              <Title level={2} className="home-section-title">Parlons de votre projet</Title>
               <div className="home-contact-points">
-                <div>
-                  <EnvironmentOutlined />
-                  <span>Tunis, Tunisie</span>
-                </div>
-                <div>
+                <a className="home-contact-link" href="mailto:trainanddareacademy@gmail.com">
                   <MailOutlined />
-                  <span>contact@trainanddare.com</span>
-                </div>
+                  <span>trainanddareacademy@gmail.com</span>
+                </a>
                 <div>
                   <CalendarOutlined />
                   <span>Échanges exploratoires et accompagnements sur mesure</span>

@@ -4,7 +4,7 @@ import { ArrowRightOutlined, DashboardOutlined, ReloadOutlined, SearchOutlined }
 import { useNavigate } from 'react-router-dom';
 import { blogsApi } from '../api/blogs';
 import type { BlogCategory, BlogPost } from '../types/blog';
-import { useAuth } from '../context/AuthContext';
+import { useAuth } from '../context/useAuth';
 import { fallbackBlogCategories, posts as fallbackBlogPosts } from './BlogData';
 import {
   buildBlogPlaceholder,
@@ -15,6 +15,7 @@ import {
   truncateBlogText,
 } from './blogUtils';
 import Seo from './Seo';
+import { pageSeo } from '../seo/pages';
 import './BlogSystem.css';
 
 const { Paragraph, Title } = Typography;
@@ -98,12 +99,7 @@ const Blog: React.FC = () => {
 
   return (
     <div className="blog-shell">
-      <Seo
-        title="Blog"
-        description="Articles Train & Dare Academy sur l entrepreneuriat, le mindset, la PNL et le developpement jeunesse."
-        path="/blog"
-        type="website"
-      />
+      <Seo {...pageSeo('/blog')} />
 
       <div className="blog-container">
         <section className="blog-hero">

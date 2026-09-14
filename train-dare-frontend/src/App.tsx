@@ -19,6 +19,7 @@ import HomePage from './component/HomePage';
 import SiteFooter from './component/SiteFooter';
 import LandingPage from './component/LandingPage';
 import AnalyticsTracker from './component/AnalyticsTracker';
+import NotFoundPage from './component/NotFoundPage';
 
 const { Header, Content, Footer } = Layout;
 
@@ -32,6 +33,10 @@ function NavigateToHomeContact() {
 /** Libellé d'une section pour le menu / footer */
 function getSectionLabel(section: string): string {
   return SECTION_LABELS[section] ?? section;
+}
+
+function getSectionHref(section: string): string {
+  return section === 'blog' ? '/blog' : section === 'accueil' ? '/' : `/#${section}`;
 }
 
 const App: React.FC = () => {
@@ -155,6 +160,7 @@ const App: React.FC = () => {
             theme="light"
             mode="horizontal"
             selectedKeys={[activeSection]}
+            onClick={({ key }) => handleNavClick(String(key))}
             style={{ 
               flex: 1, 
               justifyContent: 'flex-end',
@@ -164,11 +170,7 @@ const App: React.FC = () => {
             }}
             items={NAV_SECTION_IDS.map((section) => ({
               key: section,
-              label: (
-                <span onClick={() => handleNavClick(section)} style={{ cursor: 'pointer' }}>
-                  {getSectionLabel(section)}
-                </span>
-              ),
+              label: <a href={getSectionHref(section)} onClick={(event) => event.preventDefault()}>{getSectionLabel(section)}</a>,
             }))}
           />
 
@@ -199,10 +201,12 @@ const App: React.FC = () => {
             }}
           >
             {NAV_SECTION_IDS.map((section) => (
-              <div
+              <a
                 key={section}
-                onClick={() => handleNavClick(section)}
+                href={getSectionHref(section)}
+                onClick={(event) => { event.preventDefault(); handleNavClick(section); }}
                 style={{
+                  display: 'block',
                   padding: '12px 16px',
                   cursor: 'pointer',
                   borderRadius: '8px',
@@ -212,7 +216,7 @@ const App: React.FC = () => {
                 }}
               >
                 {getSectionLabel(section)}
-              </div>
+              </a>
             ))}
           </div>
         )}
@@ -224,8 +228,10 @@ const App: React.FC = () => {
               path="/" 
               element={<HomePage />} 
             />
+            <Route path="/apropos" element={<Navigate to="/#apropos" replace />} />
 
             {/* Separate Pages for Programs */}
+            <Route path="/programmes" element={<Navigate to="/#programmes" replace />} />
             <Route path="/programmes/education" element={<EducationPage />} />
             <Route path="/programmes/formation" element={<FormationPage />} />
             <Route path="/programmes/parent-ado" element={<EspaceParentAdo />} />
@@ -241,10 +247,12 @@ const App: React.FC = () => {
             {/* Blog routes */}
             <Route path="/blog" element={<Blog />} />
             <Route path="/blog/:slug" element={<BlogPost />} />
-            <Route path="/login" element={<LoginPage />} />
+            <Route path="/administrateur" element={<LoginPage />} />
+            <Route path="/login" element={<Navigate to="/administrateur" replace />} />
             <Route path="/editeur" element={<ProtectedRoute><BlogEditor /></ProtectedRoute>} />
             <Route path="/blog/admin" element={<ProtectedRoute><BlogEditor /></ProtectedRoute>} />
             <Route path="/contact" element={<NavigateToHomeContact />} />
+            <Route path="*" element={<NotFoundPage />} />
           </Routes>
         </Content>
 

@@ -1,0 +1,501 @@
+@import url('https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;600;700;800&family=Sora:wght@500;600;700;800&display=swap');
+
+.parentado-shell {
+  --parentado-ink: #102218;
+  --parentado-muted: #5f6863;
+  --parentado-line: rgba(16, 34, 24, 0.1);
+  --parentado-green-900: #0f3b2a;
+  --parentado-green-700: #12704d;
+  --parentado-green-500: #23b26d;
+  --parentado-coral: #ff6b3d;
+  --parentado-gold: #f1b64d;
+  --parentado-blue: #2563eb;
+  --parentado-surface: rgba(255, 255, 255, 0.9);
+  --parentado-shadow: 0 22px 58px rgba(16, 34, 24, 0.11);
+  min-height: calc(100vh - 64px);
+  padding: 28px 0 84px;
+  color: var(--parentado-ink);
+  font-family: 'Manrope', 'Segoe UI', sans-serif;
+  background:
+    radial-gradient(circle at top left, rgba(35, 178, 109, 0.14), transparent 27%),
+    radial-gradient(circle at top right, rgba(255, 107, 61, 0.12), transparent 24%),
+    linear-gradient(180deg, #f7fff9 0%, #fffaf4 48%, #ffffff 100%);
+}
+
+.parentado-container {
+  width: min(1180px, calc(100% - 32px));
+  margin: 0 auto;
+}
+
+.parentado-display,
+.parentado-section-title,
+.parentado-card-title,
+.parentado-cta-title,
+.parentado-proof-card strong,
+.parentado-pillar-card strong,
+.parentado-journey-card strong {
+  font-family: 'Sora', 'Trebuchet MS', sans-serif;
+}
+
+.parentado-back {
+  color: var(--parentado-green-900);
+  font-weight: 700;
+  margin-bottom: 16px;
+}
+
+.parentado-hero {
+  display: grid;
+  grid-template-columns: minmax(0, 1.08fr) minmax(320px, 0.92fr);
+  gap: 34px;
+  align-items: center;
+  padding: 14px 0 36px;
+}
+
+.parentado-kicker,
+.parentado-section-kicker {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  padding: 8px 14px;
+  border-radius: 999px;
+  background: rgba(18, 112, 77, 0.11);
+  color: var(--parentado-green-900);
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+  font-weight: 800;
+  font-size: 0.78rem;
+}
+
+.parentado-section-kicker--light {
+  background: rgba(255, 255, 255, 0.14);
+  color: #ffffff;
+}
+
+.parentado-display {
+  margin: 16px 0 12px !important;
+  font-size: clamp(2.35rem, 4.5vw, 4.2rem) !important;
+  line-height: 1.04 !important;
+  color: var(--parentado-green-900) !important;
+}
+
+.parentado-lead,
+.parentado-section-text,
+.parentado-pillar-card p,
+.parentado-journey-card p,
+.parentado-cta-copy,
+.parentado-objectives span {
+  color: var(--parentado-muted);
+  line-height: 1.78;
+  font-size: 1rem;
+}
+
+.parentado-action-row,
+.parentado-card-actions,
+.parentado-cta-actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 12px;
+}
+
+.parentado-action-row {
+  margin: 28px 0 22px;
+}
+
+.parentado-proof-grid {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 14px;
+}
+
+.parentado-proof-card,
+.parentado-pillar-card,
+.parentado-journey-card,
+.parentado-program-card,
+.parentado-content-panel,
+.parentado-media-panel {
+  border: 1px solid var(--parentado-line);
+  background: var(--parentado-surface);
+  box-shadow: 0 16px 42px rgba(16, 34, 24, 0.08);
+  border-radius: 8px;
+}
+
+.parentado-proof-card {
+  padding: 18px;
+}
+
+.parentado-proof-label {
+  display: block;
+  color: var(--parentado-muted);
+  font-weight: 700;
+}
+
+.parentado-proof-card strong {
+  display: block;
+  margin-top: 7px;
+  color: var(--parentado-green-900);
+}
+
+.parentado-visual {
+  position: relative;
+}
+
+.parentado-image-grid {
+  position: relative;
+  min-height: 520px;
+}
+
+.parentado-image {
+  display: block;
+  position: absolute;
+  object-fit: cover;
+  border-radius: 8px;
+  box-shadow: var(--parentado-shadow);
+}
+
+.parentado-image--main {
+  inset: 0 54px 64px 0;
+  width: calc(100% - 54px);
+  height: calc(100% - 64px);
+}
+
+.parentado-image--side {
+  right: 0;
+  bottom: 0;
+  width: 54%;
+  height: 40%;
+}
+
+.parentado-floating-note {
+  position: absolute;
+  left: 18px;
+  bottom: 94px;
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
+  max-width: 310px;
+  padding: 14px 16px;
+  border-radius: 8px;
+  color: #ffffff;
+  background: rgba(16, 34, 24, 0.92);
+  box-shadow: 0 18px 42px rgba(16, 34, 24, 0.2);
+}
+
+.parentado-alert {
+  margin: 8px 0 18px;
+  border-radius: 8px;
+}
+
+.parentado-section {
+  padding-top: 68px;
+}
+
+.parentado-section-head {
+  max-width: 780px;
+  margin-bottom: 26px;
+}
+
+.parentado-section-head--row {
+  display: flex;
+  justify-content: space-between;
+  gap: 22px;
+  max-width: none;
+  align-items: flex-end;
+}
+
+.parentado-section-title {
+  margin: 14px 0 0 !important;
+  color: var(--parentado-green-900) !important;
+  line-height: 1.15 !important;
+}
+
+.parentado-pillar-grid,
+.parentado-program-grid,
+.parentado-journey-grid {
+  display: grid;
+  gap: 18px;
+}
+
+.parentado-pillar-grid {
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+}
+
+.parentado-pillar-card {
+  padding: 24px;
+  transition: transform 160ms ease, border-color 160ms ease, box-shadow 160ms ease;
+}
+
+.parentado-pillar-card:hover,
+.parentado-program-card:hover {
+  border-color: rgba(18, 112, 77, 0.26);
+  box-shadow: var(--parentado-shadow);
+  transform: translateY(-2px);
+}
+
+.parentado-icon {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 44px;
+  height: 44px;
+  margin-bottom: 18px;
+  border-radius: 8px;
+  background: linear-gradient(135deg, var(--parentado-green-700), var(--parentado-green-500));
+  color: #ffffff;
+  font-size: 1.25rem;
+}
+
+.parentado-pillar-card strong {
+  display: block;
+  color: var(--parentado-green-900);
+  font-size: 1.08rem;
+}
+
+.parentado-pillar-card p {
+  margin: 10px 0 0;
+}
+
+.parentado-section--split {
+  display: grid;
+  grid-template-columns: minmax(300px, 0.9fr) minmax(0, 1.1fr);
+  gap: 24px;
+  align-items: stretch;
+}
+
+.parentado-media-panel {
+  overflow: hidden;
+  min-height: 420px;
+}
+
+.parentado-media-panel img {
+  display: block;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.parentado-content-panel {
+  padding: 30px;
+}
+
+.parentado-outcome-list,
+.parentado-objectives {
+  display: grid;
+  gap: 12px;
+}
+
+.parentado-outcome-list {
+  margin-top: 22px;
+}
+
+.parentado-outcome-list span,
+.parentado-objectives span {
+  display: flex;
+  gap: 10px;
+  align-items: flex-start;
+}
+
+.parentado-outcome-list .anticon,
+.parentado-objectives .anticon {
+  color: var(--parentado-green-700);
+  margin-top: 5px;
+}
+
+.parentado-section--soft {
+  padding: 42px;
+  margin-top: 68px;
+  border-radius: 8px;
+  background:
+    radial-gradient(circle at top right, rgba(37, 99, 235, 0.12), transparent 24%),
+    linear-gradient(135deg, rgba(18, 112, 77, 0.08), rgba(255, 107, 61, 0.08));
+}
+
+.parentado-journey-grid {
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+}
+
+.parentado-journey-card {
+  padding: 22px;
+}
+
+.parentado-journey-card > span {
+  display: inline-flex;
+  margin-bottom: 18px;
+  color: var(--parentado-coral);
+  font-weight: 800;
+}
+
+.parentado-journey-card strong {
+  display: block;
+  color: var(--parentado-green-900);
+}
+
+.parentado-journey-card p {
+  margin: 10px 0 0;
+}
+
+.parentado-program-grid {
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+}
+
+.parentado-program-card {
+  display: flex;
+  flex-direction: column;
+  min-height: 100%;
+  padding: 24px;
+  transition: transform 160ms ease, border-color 160ms ease, box-shadow 160ms ease;
+}
+
+.parentado-program-top {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: 14px;
+  margin-bottom: 18px;
+}
+
+.parentado-program-number {
+  color: var(--parentado-coral);
+  font-family: 'Sora', 'Trebuchet MS', sans-serif;
+  font-size: 1.35rem;
+  font-weight: 800;
+}
+
+.parentado-card-title {
+  margin: 0 0 16px !important;
+  color: var(--parentado-green-900) !important;
+  font-size: 1.22rem !important;
+  line-height: 1.35 !important;
+}
+
+.parentado-objectives {
+  margin-bottom: 22px;
+}
+
+.parentado-card-actions {
+  margin-top: auto;
+}
+
+.parentado-cta {
+  display: flex;
+  justify-content: space-between;
+  gap: 24px;
+  align-items: center;
+  margin-top: 70px;
+  padding: 34px;
+  border-radius: 8px;
+  background:
+    radial-gradient(circle at top left, rgba(255, 255, 255, 0.1), transparent 25%),
+    linear-gradient(135deg, #0f3b2a, #1f2e44);
+  color: #ffffff;
+}
+
+.parentado-cta-title {
+  margin: 14px 0 10px !important;
+  color: #ffffff !important;
+}
+
+.parentado-cta-copy {
+  max-width: 720px;
+  margin-bottom: 0 !important;
+  color: rgba(255, 255, 255, 0.78);
+}
+
+.parentado-cta .ant-btn:not(.ant-btn-primary) {
+  color: #ffffff;
+  border-color: rgba(255, 255, 255, 0.34);
+  background: rgba(255, 255, 255, 0.08);
+}
+
+.parentado-shell .ant-btn-primary {
+  background: linear-gradient(135deg, var(--parentado-green-700), var(--parentado-green-500));
+  border: none;
+  box-shadow: 0 14px 28px rgba(18, 112, 77, 0.2);
+}
+
+.parentado-shell .ant-btn:not(.ant-btn-primary) {
+  color: var(--parentado-green-900);
+  border-color: rgba(18, 112, 77, 0.16);
+}
+
+@media (max-width: 980px) {
+  .parentado-hero,
+  .parentado-section--split {
+    grid-template-columns: 1fr;
+  }
+
+  .parentado-proof-grid,
+  .parentado-pillar-grid,
+  .parentado-program-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .parentado-journey-grid {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+
+  .parentado-section-head--row,
+  .parentado-cta {
+    align-items: flex-start;
+    flex-direction: column;
+  }
+
+  .parentado-image-grid {
+    min-height: 430px;
+  }
+}
+
+@media (max-width: 640px) {
+  .parentado-shell {
+    padding-top: 18px;
+  }
+
+  .parentado-container {
+    width: min(100% - 24px, 1180px);
+  }
+
+  .parentado-display {
+    font-size: 2.25rem !important;
+  }
+
+  .parentado-action-row .ant-btn,
+  .parentado-card-actions .ant-btn,
+  .parentado-cta-actions .ant-btn,
+  .parentado-section-head--row .ant-btn {
+    width: 100%;
+  }
+
+  .parentado-image-grid {
+    min-height: 360px;
+  }
+
+  .parentado-image--main {
+    inset: 0 0 82px 0;
+    width: 100%;
+    height: calc(100% - 82px);
+  }
+
+  .parentado-image--side {
+    width: 62%;
+    height: 34%;
+  }
+
+  .parentado-floating-note {
+    left: 12px;
+    right: 12px;
+    bottom: 72px;
+  }
+
+  .parentado-section {
+    padding-top: 48px;
+  }
+
+  .parentado-section--soft,
+  .parentado-content-panel,
+  .parentado-cta {
+    padding: 24px;
+  }
+
+  .parentado-journey-grid {
+    grid-template-columns: 1fr;
+  }
+}

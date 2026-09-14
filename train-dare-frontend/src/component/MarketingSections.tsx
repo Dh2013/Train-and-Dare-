@@ -1,20 +1,13 @@
-import { useState } from 'react';
-import { Alert, Button, Form, Input, Select, Typography, message } from 'antd';
+import { Button, Typography } from 'antd';
 import {
   BarChartOutlined,
-  BulbOutlined,
-  CheckCircleFilled,
-  ExperimentOutlined,
   LineChartOutlined,
-  MailOutlined,
   SearchOutlined,
   ShareAltOutlined,
   StarFilled,
   ThunderboltOutlined,
 } from '@ant-design/icons';
 import { useNavigate } from 'react-router-dom';
-import { newsletterApi } from '../api/newsletter';
-import { trackConversion, trackEvent } from '../lib/analytics';
 import SocialShareButtons from './SocialShareButtons';
 import './MarketingSections.css';
 
@@ -45,11 +38,6 @@ const marketingLevers = [
     icon: <ThunderboltOutlined />,
     title: 'Landing Pages SEA',
     body: 'Pages de destination pour accueillir le trafic publicitaire avec une promesse claire, des preuves et un formulaire court.',
-  },
-  {
-    icon: <MailOutlined />,
-    title: 'Email Marketing',
-    body: 'Capture email et segmentation pour relancer les prospects, partager les contenus et annoncer les prochains ateliers.',
   },
 ];
 
@@ -87,7 +75,7 @@ export function DigitalMarketingSection() {
           </Title>
           <Paragraph className="home-section-text home-section-text--center">
             Le site devient un support commercial complet : SEO, analytics, contenu, social media,
-            publicite ciblee, generation de leads et email marketing.
+            publicite ciblee, generation de leads et fidelisation.
           </Paragraph>
         </div>
 
@@ -169,126 +157,5 @@ export function ClientReviewsSection() {
         </div>
       </div>
     </section>
-  );
-}
-
-export function EmailMarketingSection() {
-  const [form] = Form.useForm<{ fullName?: string; email: string; segment?: string }>();
-  const [submitting, setSubmitting] = useState(false);
-  const [feedback, setFeedback] = useState<string | null>(null);
-
-  const onFinish = async (values: { fullName?: string; email: string; segment?: string }) => {
-    setSubmitting(true);
-    setFeedback(null);
-    try {
-      await newsletterApi.subscribe({
-        email: values.email.trim(),
-        fullName: values.fullName?.trim() || undefined,
-        source: 'homepage-email-marketing',
-        segments: values.segment ? [values.segment] : ['all'],
-        tags: ['lead-generation', 'website'],
-      });
-      trackConversion('newsletter_signup', {
-        location: 'homepage',
-        segment: values.segment || 'all',
-      });
-      setFeedback('Inscription confirmee. Vous recevrez les contenus Train & Dare.');
-      message.success('Inscription newsletter enregistree.');
-      form.resetFields();
-    } catch {
-      message.error('Impossible d enregistrer l email pour le moment.');
-    } finally {
-      setSubmitting(false);
-    }
-  };
-
-  return (
-    <section id="email-marketing" className="marketing-section marketing-section--dark">
-      <div className="home-container email-grid">
-        <div>
-          <span className="home-section-kicker home-section-kicker--light">Email marketing</span>
-          <Title level={2} className="home-section-title home-section-title--light">
-            Transformez les visiteurs interesses en audience qualifiee.
-          </Title>
-          <Paragraph className="marketing-light-copy">
-            Capturez les emails pour envoyer des contenus utiles, annoncer les ateliers, relancer les
-            prospects et nourrir la relation avant une inscription.
-          </Paragraph>
-
-          <div className="email-benefits">
-            {['Conseils entrepreneuriat', 'Invitations ateliers', 'Ressources mindset'].map((item) => (
-              <span key={item}>
-                <CheckCircleFilled /> {item}
-              </span>
-            ))}
-          </div>
-        </div>
-
-        <div className="email-card">
-          <Form form={form} layout="vertical" onFinish={onFinish}>
-            <Form.Item name="fullName" label="Nom">
-              <Input size="large" placeholder="Votre nom" />
-            </Form.Item>
-            <Form.Item
-              name="email"
-              label="Email"
-              rules={[
-                { required: true, message: 'Votre email est requis.' },
-                { type: 'email', message: 'Entrez un email valide.' },
-              ]}
-            >
-              <Input size="large" placeholder="vous@exemple.com" />
-            </Form.Item>
-            <Form.Item name="segment" label="Votre interet principal">
-              <Select
-                size="large"
-                placeholder="Choisir un sujet"
-                options={[
-                  { value: 'jeunes', label: 'Programmes jeunes' },
-                  { value: 'adultes', label: 'Formation adultes' },
-                  { value: 'coaching', label: 'Coaching & mindset' },
-                  { value: 'partenariats', label: 'Ecoles et partenaires' },
-                ]}
-              />
-            </Form.Item>
-            <Button
-              type="primary"
-              htmlType="submit"
-              size="large"
-              icon={<MailOutlined />}
-              loading={submitting}
-              block
-              onClick={() => trackEvent('newsletter_form_click', { location: 'homepage' })}
-            >
-              Recevoir les ressources
-            </Button>
-          </Form>
-
-          {feedback && <Alert type="success" showIcon message={feedback} style={{ marginTop: 16 }} />}
-        </div>
-      </div>
-    </section>
-  );
-}
-
-export function ConversionHighlights() {
-  return (
-    <div className="conversion-strip" aria-label="Conversion et generation de leads">
-      <div>
-        <ExperimentOutlined />
-        <strong>Diagnostic gratuit</strong>
-        <span>Un premier echange pour qualifier le besoin.</span>
-      </div>
-      <div>
-        <BulbOutlined />
-        <strong>Offres claires</strong>
-        <span>Jeunes, adultes, coaching, enseignants.</span>
-      </div>
-      <div>
-        <LineChartOutlined />
-        <strong>Suivi des conversions</strong>
-        <span>Contact, inscription, newsletter et clics CTA.</span>
-      </div>
-    </div>
   );
 }

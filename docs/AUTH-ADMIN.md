@@ -28,19 +28,23 @@
 
 Variables d’environnement recommandées :
 
-- `ADMIN_USERNAME` : identifiant admin (défaut : `admin`).
-- `ADMIN_PASSWORD` : mot de passe admin (défaut : `admin` — **à changer en production**).
-- `JWT_SECRET` : secret pour signer les JWT (défaut : valeur de démo — **à changer en production**).
+- `MONGODB_URI` : connexion MongoDB. Quand elle est définie, les comptes MongoDB actifs (`editor` ou `super_admin`) sont la seule source d’authentification.
+- `ADMIN_USERNAME` : identifiant explicite du mode JSON, utilisé uniquement quand `MONGODB_URI` est absente.
+- `ADMIN_PASSWORD` : mot de passe explicite du mode JSON (au moins 12 caractères en production), utilisé uniquement quand `MONGODB_URI` est absente.
+- `JWT_SECRET` : secret aléatoire indépendant d’au moins 32 caractères, obligatoire en production.
 - `JWT_EXPIRES_IN` : expiration du token en **secondes** (défaut : 604800 = 7 jours).
 
 Exemple `.env` :
 
 ```
-ADMIN_USERNAME=admin
-ADMIN_PASSWORD=VotreMotDePasseSecurise
-JWT_SECRET=une-longue-chaine-aleatoire-secrete
+MONGODB_URI=
+ADMIN_USERNAME=VotreIdentifiantAdmin
+ADMIN_PASSWORD=VotreMotDePasseLongEtUnique
+JWT_SECRET=UneChaineAleatoireDauMoins32Caracteres
 JWT_EXPIRES_IN=604800
 ```
+
+En production, aucune valeur par défaut (`admin`, `admin` ou le secret de démonstration) n’est acceptée. Ne commitez jamais les valeurs réelles ; configurez-les dans Render.
 
 ## Flux
 

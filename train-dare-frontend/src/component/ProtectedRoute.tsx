@@ -1,10 +1,10 @@
 import React from 'react';
 import { Navigate, useLocation } from 'react-router-dom';
-import { useAuth } from '../context/AuthContext';
+import { useAuth } from '../context/useAuth';
 import { Spin } from 'antd';
 
 /**
- * Protège l'accès à l'éditeur : redirige vers /login si l'utilisateur n'est pas admin.
+ * Protège l'accès à l'éditeur : redirige vers /administrateur si l'utilisateur n'est pas admin.
  * Aucune trace du contenu protégé pour les visiteurs non authentifiés.
  */
 const ProtectedRoute: React.FC<{ children: React.ReactNode }> = ({ children }) => {
@@ -20,7 +20,7 @@ const ProtectedRoute: React.FC<{ children: React.ReactNode }> = ({ children }) =
   }
 
   if (!isAdmin) {
-    return <Navigate to="/login" state={{ from: location }} replace />;
+    return <Navigate to="/administrateur" state={{ from: location }} replace />;
   }
 
   return <>{children}</>;

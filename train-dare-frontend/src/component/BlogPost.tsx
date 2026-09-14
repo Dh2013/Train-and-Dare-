@@ -12,7 +12,7 @@ import {
 import { useNavigate, useParams } from 'react-router-dom';
 import { blogsApi } from '../api/blogs';
 import type { BlogCategory, BlogPost } from '../types/blog';
-import { useAuth } from '../context/AuthContext';
+import { useAuth } from '../context/useAuth';
 import { fallbackBlogCategories, posts as fallbackBlogPosts } from './BlogData';
 import {
   buildBlogPlaceholder,
@@ -20,17 +20,16 @@ import {
   getAudienceFromCategory,
   getCategoryBySlug,
 } from './blogUtils';
-import { sanitizeHtml } from './RichTextEditor';
+import { sanitizeHtml } from '../lib/sanitizeHtml';
 import Seo from './Seo';
+import { articleSeo, pageSeo } from '../seo/pages';
+import { canonicalUrl, siteOrigin } from '../seo/metadata';
 import './BlogSystem.css';
 
 const { Title, Text } = Typography;
 
 function buildShareUrl(slug: string): string {
-  if (typeof window === 'undefined' || !window.location?.origin) {
-    return `http://localhost:5173/blog/${slug}`;
-  }
-  return `${window.location.origin}/blog/${slug}`;
+  return canonicalUrl(`/blog/${slug}`, siteOrigin(import.meta.env.VITE_SITE_URL, window.location.origin)!);
 }
 
 const BlogPostPage: React.FC = () => {
@@ -123,9 +122,11 @@ const BlogPostPage: React.FC = () => {
   if (!post) {
     return (
       <div className="blog-shell">
+        <Seo {...pageSeo('/404')} title="Article introuvable" />
         <div className="blog-container">
           <div className="blog-empty">
-            <Empty description="Article introuvable" image={Empty.PRESENTED_IMAGE_SIMPLE}>
+            <h1>Article introuvable</h1>
+            <Empty description="Cet article n’est pas disponible." image={Empty.PRESENTED_IMAGE_SIMPLE}>
               <Button type="primary" onClick={() => navigate('/blog')}>
                 Retour au blog
               </Button>
@@ -175,13 +176,7 @@ const BlogPostPage: React.FC = () => {
 
   return (
     <div className="blog-shell">
-      <Seo
-        title={post.metaTitle || post.title}
-        description={post.metaDescription || post.excerpt}
-        image={featuredImage}
-        path={`/blog/${post.slug}`}
-        type="article"
-      />
+      <Seo {...articleSeo(post)} />
 
       <div className="blog-container">
         <Button type="text" icon={<ArrowLeftOutlined />} onClick={() => navigate('/blog')}>
@@ -254,7 +249,7 @@ const BlogPostPage: React.FC = () => {
 
           <aside className="blog-post-sidebar">
             <div className="blog-inline-row" style={{ justifyContent: 'space-between' }}>
-              <Title level={4} className="blog-heading" style={{ margin: 0 }}>
+              <Title level={2} className="blog-heading" style={{ margin: 0 }}>
                 A propos de cet article
               </Title>
               <ShareAltOutlined style={{ color: '#0f766e' }} />
@@ -295,7 +290,7 @@ const BlogPostPage: React.FC = () => {
 
         {relatedPosts.length > 0 && (
           <section className="blog-related">
-            <Title level={3} className="blog-heading">
+            <Title level={2} className="blog-heading">
               Articles lies
             </Title>
 

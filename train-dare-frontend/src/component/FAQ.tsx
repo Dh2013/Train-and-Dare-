@@ -30,7 +30,7 @@ const faqs = [
   },
   {
     question: 'Comment contacter un coach pour une session personnalisée ?',
-    answer: 'Utilisez notre formulaire de contact ou envoyez un email à contact@trainanddare.com pour une réponse sous 48h.'
+    answer: 'Utilisez notre formulaire de contact ou envoyez un email à trainanddareacademy@gmail.com pour une réponse sous 48h.'
   }
 ];
 
@@ -84,7 +84,7 @@ const FAQ: React.FC = () => {
               type="default"
               icon={<MailOutlined />}
               size="large"
-              onClick={() => window.location.href = 'mailto:contact@trainanddare.com'}
+              onClick={() => window.location.href = 'mailto:trainanddareacademy@gmail.com'}
             >
               Envoyer un Email
             </Button>

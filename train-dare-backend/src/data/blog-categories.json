@@ -38,5 +38,15 @@
     "audience": "youth",
     "createdAt": "2026-01-01T09:00:00.000Z",
     "updatedAt": "2026-01-01T09:00:00.000Z"
+  },
+  {
+    "id": "cat-mqtuhpjnmlcn5",
+    "name": "Psycologie",
+    "slug": "science",
+    "description": "Dans ce thème je traite de la psychologie",
+    "color": "#0a08b5",
+    "audience": "all",
+    "createdAt": "2026-06-25T18:38:04.691Z",
+    "updatedAt": "2026-06-25T18:38:04.691Z"
   }
 ]

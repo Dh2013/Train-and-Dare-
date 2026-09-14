@@ -2,7 +2,9 @@ import React, { useState } from 'react';
 import { Form, Input, Button, Card, Typography, message } from 'antd';
 import { useNavigate, useLocation } from 'react-router-dom';
 import { LockOutlined, UserOutlined } from '@ant-design/icons';
-import { useAuth } from '../context/AuthContext';
+import { useAuth } from '../context/useAuth';
+import Seo from './Seo';
+import { pageSeo } from '../seo/pages';
 
 const { Title, Paragraph } = Typography;
 
@@ -35,6 +37,7 @@ const LoginPage: React.FC = () => {
   return (
     <div style={{ minHeight: '60vh', display: 'flex', alignItems: 'center', justifyContent: 'center', padding: 24 }}>
       <Card style={{ maxWidth: 400, width: '100%' }}>
+        <Seo {...pageSeo('/administrateur')} />
         <Title level={3} style={{ textAlign: 'center', marginBottom: 8 }}>
           Connexion administration
         </Title>
@@ -44,12 +47,14 @@ const LoginPage: React.FC = () => {
         <Form name="login" onFinish={onFinish} layout="vertical" size="large">
           <Form.Item
             name="username"
+            label="Identifiant"
             rules={[{ required: true, message: 'Identifiant requis' }]}
           >
             <Input prefix={<UserOutlined />} placeholder="Identifiant" autoComplete="username" />
           </Form.Item>
           <Form.Item
             name="password"
+            label="Mot de passe"
             rules={[{ required: true, message: 'Mot de passe requis' }]}
           >
             <Input.Password prefix={<LockOutlined />} placeholder="Mot de passe" autoComplete="current-password" />

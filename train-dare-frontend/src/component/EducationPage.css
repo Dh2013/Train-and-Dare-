@@ -22,6 +22,27 @@
     linear-gradient(180deg, #f7fbff 0%, #fff9f3 56%, #ffffff 100%);
 }
 
+.education-introduction-list {
+  padding-left: 1.4rem;
+  color: var(--education-muted);
+  font-size: 1rem;
+  line-height: 1.8;
+}
+
+.education-introduction-list li + li {
+  margin-top: 14px;
+}
+
+.education-introduction-list strong,
+.education-introduction-list li::marker {
+  color: var(--education-blue-900);
+  font-weight: 700;
+}
+
+.education-introduction-list p {
+  margin: 6px 0 0;
+}
+
 .education-container {
   width: min(1180px, calc(100% - 32px));
   margin: 0 auto;
@@ -154,6 +175,86 @@
   position: relative;
 }
 
+.education-workshop-figure {
+  width: 94%;
+  margin: 0;
+}
+
+.education-workshop-photo {
+  overflow: hidden;
+  border-radius: 32px;
+  aspect-ratio: 4 / 3;
+  box-shadow: 0 24px 64px rgba(21, 59, 138, 0.14);
+}
+
+.education-workshop-photo img {
+  display: block;
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
+}
+
+.education-classroom-figure {
+  position: relative;
+  z-index: 1;
+  width: 60%;
+  margin: -20% 0 0 auto;
+  overflow: hidden;
+  border-radius: 30px;
+  box-shadow: 0 20px 48px rgba(21, 59, 138, 0.18);
+}
+
+.education-classroom-figure img {
+  display: block;
+  width: 100%;
+  height: auto;
+}
+
+.education-workshop-caption {
+  position: absolute;
+  top: 52%;
+  left: 2%;
+  z-index: 2;
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  width: 57%;
+  box-sizing: border-box;
+  padding: clamp(14px, 2vw, 24px);
+  border-radius: 23px;
+  background: rgba(20, 39, 62, 0.94);
+  backdrop-filter: blur(12px);
+  color: #ffffff;
+  box-shadow: 0 14px 34px rgba(16, 33, 48, 0.16);
+}
+
+.education-workshop-symbol {
+  flex: 0 0 auto;
+  color: #ffffff;
+  font-size: 21px;
+}
+
+.education-workshop-caption strong {
+  color: #ffffff;
+  font-size: clamp(0.85rem, 1.4vw, 1.1rem);
+  font-weight: 600;
+  line-height: 1.5;
+}
+
+@media (max-width: 600px) {
+  .education-workshop-photo,
+  .education-classroom-figure {
+    border-radius: 22px;
+  }
+
+  .education-workshop-caption {
+    top: 50%;
+    width: 64%;
+    gap: 8px;
+    padding: 12px;
+    border-radius: 17px;
+  }
+}
 .education-image-stack {
   position: relative;
   min-height: 520px;
@@ -176,13 +277,6 @@
 
 .education-image--main {
   inset: 0 28px 74px 0;
-}
-
-.education-image--secondary {
-  width: 58%;
-  height: 40%;
-  right: 0;
-  bottom: 0;
 }
 
 .education-floating-card {

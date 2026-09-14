@@ -1,18 +1,39 @@
 [build]
-  command = "npm install --prefix train-dare-frontend && npm run build --prefix train-dare-frontend"
-  publish = "train-dare-frontend/dist"
+  base = "train-dare-frontend"
+  command = "npm ci && npm run test && npm run check:production && npm run build"
+  publish = "dist"
 
 [build.environment]
-  NODE_VERSION = "20"
+  NODE_VERSION = "22"
   VITE_API_URL = "/api"
+  SEO_API_URL = "https://train-and-dare.onrender.com/api"
 
 [[redirects]]
   from = "/api/*"
-  to = "https://dh2013-train-and-dare-backend.onrender.com/api/:splat"
+  to = "https://train-and-dare.onrender.com/api/:splat"
   status = 200
   force = true
 
+[[headers]]
+  for = "/*"
+  [headers.values]
+    X-Content-Type-Options = "nosniff"
+    X-Frame-Options = "SAMEORIGIN"
+    Referrer-Policy = "strict-origin-when-cross-origin"
+
+[[headers]]
+  for = "/assets/*"
+  [headers.values]
+    Cache-Control = "public, max-age=31536000, immutable"
+
+[[redirects]]
+  from = "/inscription/*"
+  to = "/inscription/index.html"
+  status = 200
+
 [[redirects]]
   from = "/*"
-  to = "/index.html"
+  # React Router fallback: spa.html is the generated React shell without home SEO.
+  # Keep this rule last and unforced so API routes and static SEO pages take priority.
+  to = "/spa.html"
   status = 200

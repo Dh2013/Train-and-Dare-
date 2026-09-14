@@ -10,6 +10,9 @@ export interface InscriptionPayload {
   trancheAge?: string;
   telephone?: string;
   message?: string;
+  preferredContact?: 'email' | 'phone' | 'whatsapp';
+  source?: string;
+  consentAccepted?: boolean;
 }
 
 export const inscriptionsApi = {

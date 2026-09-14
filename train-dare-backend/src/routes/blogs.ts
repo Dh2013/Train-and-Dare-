@@ -1,9 +1,9 @@
 import { Router, Request, Response } from 'express';
 import fs from 'fs';
 import path from 'path';
-import jwt from 'jsonwebtoken';
 import DOMPurify from 'isomorphic-dompurify';
-import { getJwtSecret, requireAdmin } from '../middleware/auth';
+import { getAuthenticatedAdmin, requireAdmin } from '../middleware/auth';
+import { requestNetlifyBuild } from '../services/netlifyBuild';
 
 const router = Router();
 const dataDir = path.join(process.cwd(), 'src', 'data');
@@ -398,6 +398,10 @@ function loadPosts(): BlogPost[] {
     writeJson(blogsFile, sorted);
   }
 
+  // Scheduled posts are promoted on read in the existing model, not by a cron.
+  // Only the persisted transition triggers a build; ordinary reads do not.
+  if (synced.changed) void requestNetlifyBuild();
+
   return sorted;
 }
 
@@ -409,21 +413,6 @@ function writeCategories(categories: BlogCategory[]): void {
   writeJson(categoriesFile, categories);
 }
 
-function getOptionalAdmin(req: Request): boolean {
-  const authHeader = req.headers.authorization;
-  const token = authHeader?.startsWith('Bearer ') ? authHeader.slice(7) : undefined;
-
-  if (!token) {
-    return false;
-  }
-
-  try {
-    const decoded = jwt.verify(token, getJwtSecret()) as { role?: string };
-    return decoded.role === 'admin';
-  } catch {
-    return false;
-  }
-}
 
 interface PostFilters {
   search?: string;
@@ -580,16 +569,22 @@ router.put('/categories/:slug', requireAdmin, (req: Request, res: Response) => {
     updatedAt: now,
   };
 
+  // Read against the old categories before renaming, to retain article mappings.
+  const existingPosts = loadPosts();
+  const affectsPublishedPosts = existingPosts.some((post) =>
+    post.category === current.slug && post.status === 'published'
+  );
   categories[index] = updatedCategory;
   writeCategories(categories);
 
   if (current.slug !== nextSlug) {
-    const posts = loadPosts().map((post) =>
+    const posts = existingPosts.map((post) =>
       post.category === current.slug ? { ...post, category: nextSlug, updatedAt: now } : post
     );
     writePosts(posts);
   }
 
+  if (affectsPublishedPosts) void requestNetlifyBuild();
   res.json(updatedCategory);
 });
 
@@ -642,21 +637,25 @@ router.get('/', requireAdmin, (req: Request, res: Response) => {
   res.json(filtered);
 });
 
-router.get('/:id', (req: Request, res: Response) => {
-  const isAdmin = getOptionalAdmin(req);
-  const post = loadPosts().find((item) => item.id === req.params.id || item.slug === req.params.id);
+router.get('/:id', async (req: Request, res: Response, next) => {
+  try {
+    const isAdmin = await getAuthenticatedAdmin(req);
+    const post = loadPosts().find((item) => item.id === req.params.id || item.slug === req.params.id);
 
-  if (!post) {
-    res.status(404).json({ error: 'Article non trouve' });
-    return;
+    if (!post) {
+      res.status(404).json({ error: 'Article non trouve' });
+      return;
+    }
+
+    if (!isAdmin && post.status !== 'published') {
+      res.status(404).json({ error: 'Article non trouve' });
+      return;
+    }
+
+    res.json(post);
+  } catch (error) {
+    next(error);
   }
-
-  if (!isAdmin && post.status !== 'published') {
-    res.status(404).json({ error: 'Article non trouve' });
-    return;
-  }
-
-  res.json(post);
 });
 
 router.post('/', requireAdmin, (req: Request, res: Response) => {
@@ -742,6 +741,7 @@ router.post('/', requireAdmin, (req: Request, res: Response) => {
 
   const updatedPosts = sortPosts([created, ...posts]);
   writePosts(updatedPosts);
+  if (created.status === 'published') void requestNetlifyBuild();
   res.status(201).json(created);
 });
 
@@ -839,6 +839,9 @@ router.put('/:id', requireAdmin, (req: Request, res: Response) => {
 
   posts[index] = updated;
   writePosts(posts);
+  if (current.status === 'published' || updated.status === 'published') {
+    void requestNetlifyBuild();
+  }
   res.json(updated);
 });
 
@@ -862,6 +865,7 @@ router.patch('/:id/publish', requireAdmin, (req: Request, res: Response) => {
   };
 
   writePosts(posts);
+  void requestNetlifyBuild();
   res.json(posts[index]);
 });
 
@@ -874,6 +878,7 @@ router.patch('/:id/unpublish', requireAdmin, (req: Request, res: Response) => {
     return;
   }
 
+  const wasPublished = posts[index].status === 'published';
   const now = new Date().toISOString();
   posts[index] = {
     ...posts[index],
@@ -884,6 +889,7 @@ router.patch('/:id/unpublish', requireAdmin, (req: Request, res: Response) => {
   };
 
   writePosts(posts);
+  if (wasPublished) void requestNetlifyBuild();
   res.json(posts[index]);
 });
 
@@ -896,8 +902,10 @@ router.delete('/:id', requireAdmin, (req: Request, res: Response) => {
     return;
   }
 
+  const wasPublished = posts[index].status === 'published';
   posts.splice(index, 1);
   writePosts(posts);
+  if (wasPublished) void requestNetlifyBuild();
   res.status(204).send();
 });
 

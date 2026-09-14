@@ -29,6 +29,9 @@ app.use('/api/newsletter', newsletterRouter);
 app.get('/api/health', (_req, res) => {
   res.json({
     status: 'ok',
+    revision: /^[a-f0-9]{40}$/i.test(process.env.RENDER_GIT_COMMIT ?? '')
+      ? process.env.RENDER_GIT_COMMIT
+      : null,
     database: getDatabaseStatus(),
   });
 });

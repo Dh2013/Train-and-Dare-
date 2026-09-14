@@ -29,4 +29,7 @@ lerna-debug.log*
 Thumbs.db
 
 # Local-only files
+train-dare-backend/render-variables.txt
 *.local
+.netlify/
+**/.netlify/

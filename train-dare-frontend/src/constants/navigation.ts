@@ -6,12 +6,11 @@ export const SECTION_IDS = [
   'accueil',
   'apropos',
   'programmes',
-  'marketing-digital',
   'coaching',
-  'avis-clients',
   'temoignages',
   'blog',
   'faq',
+  'carriere',
   'contact',
 ] as const;
 
@@ -22,12 +21,11 @@ export const SECTION_LABELS: Record<string, string> = {
   accueil: 'Accueil',
   apropos: 'À propos',
   programmes: 'Programmes',
-  'marketing-digital': 'Marketing',
   coaching: 'Coaching',
-  'avis-clients': 'Avis',
   temoignages: 'Témoignages',
   blog: 'Blog',
   faq: 'FAQ',
+  carriere: 'Carrière',
   contact: 'Contact',
 };
 

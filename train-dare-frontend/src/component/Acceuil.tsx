@@ -7,7 +7,7 @@ import './Acceuil.css';
 
 // IMG
 import img1 from '../assets/IMG_20220812_115832 (1).jpg';
-import img2 from '../assets/IMG_20220812_093123 (2).jpg';
+import img2 from '../assets/TRAIN&DARE ACADEMY 2.jpg';
 import img3 from '../assets/IMG_20220720_100200.jpg';
 import img4 from '../assets/IMG_20231125_134053.jpg';
 import img5 from '../assets/IMG_20240228_144718.jpg';
@@ -37,28 +37,28 @@ const Acceuil: React.FC = () => {
             <Col xs={24} lg={12}>
               <motion.div initial={{ opacity: 0, x: -24 }} animate={{ opacity: 1, x: 0 }} transition={{ duration: 0.7 }}>
                 <Title className="hero-title">Train & Dare Academy</Title>
-               
+
                 <Paragraph className="hero-quote" style={{ marginTop: 12 }}>
                   « Train & Dare Academy accompagne les jeunes dans leur éveil entrepreneurial, et les adultes dans la concrétisation de leur projet. »
                 </Paragraph>
 
                 <Paragraph className="hero-desc">
-                  Bienvenue — un centre innovant d’éducation et de formation en entrepreneuriat et développement personnel. Deux parcours : Éducation pour jeunes et Formation pour adultes.
+                  Bienvenue à Train and Dare Academy, un centre innovant d’éducation et de formation en entrepreneuriat et développement personnel.
                 </Paragraph>
 
                 <Space wrap style={{ marginTop: 20 }}>
-                  <Button type="primary" size="large" icon={<ArrowRightOutlined />} onClick={() => navigate('/programmes')}>
+                  <Button type="primary" size="large" icon={<ArrowRightOutlined />} onClick={() => navigate('/#programmes')}>
                     Découvrir nos programmes
                   </Button>
                   </Space>
 
-            
+
 
                 <div style={{ display: 'flex', gap: 20, marginTop: 28, flexWrap: 'wrap' }}>
-             
+
                  </div>
               </motion.div>
-            </Col> 
+            </Col>
             <Col xs={24} lg={12}>
   <motion.div
     initial={{ opacity: 0, x: 20 }}
@@ -96,7 +96,7 @@ const Acceuil: React.FC = () => {
     </div>
   </motion.div>
 </Col>
-            
+
           </Row>
         </div>
       </section>
@@ -105,7 +105,7 @@ const Acceuil: React.FC = () => {
       <section id="programmes-preview" className="programmes-preview" style={{ padding: '40px 24px', background: 'linear-gradient(180deg,#fbfdff,#f7f7ff)' }}>
         <div style={{ maxWidth: 1200, margin: '0 auto', textAlign: 'center' }}>
           <Title level={2} style={{ marginBottom: 8 }}>Nous accompagnons deux publics </Title>
-          
+
 
           <Row gutter={[24, 24]} justify="center">
             <Col xs={24} md={12}>
@@ -165,7 +165,7 @@ const Acceuil: React.FC = () => {
             <Title level={4} style={{ margin: 0 }}>Un seul mot d'ordre : OSEZ ! </Title>
             <Text type="secondary">Découvrez nos espaces, nos méthodes et nos accompagnements.</Text>
           </div>
-          
+
         </div>
       </section>
     </div>

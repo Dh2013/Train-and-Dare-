@@ -4,6 +4,8 @@
   "description": "Simple Express + TypeScript backend for Train & Dare frontend",
   "main": "dist/index.js",
   "scripts": {
+    "test": "tsc -p tsconfig.json && node --test --test-concurrency=1 tests/*.test.cjs",
+    "check": "tsc -p tsconfig.json --noEmit",
     "dev": "ts-node-dev --respawn --transpile-only src/index.ts",
     "build": "tsc -p tsconfig.json && node scripts/copy-data.js",
     "start": "node dist/index.js",
@@ -13,10 +15,10 @@
   "license": "MIT",
   "dependencies": {
     "cors": "^2.8.5",
-    "express": "^4.18.2",
+    "express": "^4.22.2",
     "isomorphic-dompurify": "^3.0.0-rc.2",
     "jsonwebtoken": "^9.0.3",
-    "mongoose": "^9.3.3"
+    "mongoose": "^9.10.0"
   },
   "devDependencies": {
     "@types/cors": "^2.8.12",

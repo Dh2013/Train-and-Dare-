@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useState, useCallback } from 'react';
 import {
   Alert,
   Button,
@@ -30,7 +30,7 @@ import type {
   BlogStatus,
   CategoryAudience,
 } from '../types/blog';
-import { useAuth } from '../context/AuthContext';
+import { useAuth } from '../context/useAuth';
 import { fallbackBlogCategories } from './BlogData';
 import {
   buildBlogPlaceholder,
@@ -43,7 +43,8 @@ import {
   toDatetimeLocal,
   truncateBlogText,
 } from './blogUtils';
-import RichTextEditor, { sanitizeHtml } from './RichTextEditor';
+import RichTextEditor from './RichTextEditor';
+import { sanitizeHtml } from '../lib/sanitizeHtml';
 import Seo from './Seo';
 import './BlogSystem.css';
 
@@ -148,7 +149,7 @@ const BlogEditor: React.FC = () => {
     void loadDashboardData();
   }, []);
 
-  const resetCategoryForm = () => {
+  const resetCategoryForm = useCallback(() => {
     setEditingCategorySlug(null);
     categoryForm.setFieldsValue({
       name: '',
@@ -157,7 +158,7 @@ const BlogEditor: React.FC = () => {
       color: '#0E9F6E',
       audience: 'adult',
     });
-  };
+  }, [categoryForm]);
 
   const resetPostForm = () => {
     setEditingId(null);
@@ -183,7 +184,7 @@ const BlogEditor: React.FC = () => {
     if (mode === 'list') {
       resetCategoryForm();
     }
-  }, [mode]);
+  }, [mode, resetCategoryForm]);
 
   const startCreate = () => {
     resetPostForm();
@@ -409,7 +410,7 @@ const BlogEditor: React.FC = () => {
   if (mode === 'create' || mode === 'edit') {
     return (
       <div className="blog-editor-shell">
-        <Seo title="Administration blog" description="Espace admin du blog Train & Dare Academy." path="/editeur" />
+        <Seo title="Administration blog" description="Espace admin du blog Train & Dare Academy." path="/editeur" noindex />
 
         <div className="blog-container">
           <div className="blog-admin-topbar">
@@ -577,7 +578,7 @@ const BlogEditor: React.FC = () => {
 
   return (
     <div className="blog-editor-shell">
-      <Seo title="Tableau de bord blog" description="Back office du blog Train & Dare Academy." path="/editeur" />
+      <Seo title="Tableau de bord blog" description="Back office du blog Train & Dare Academy." path="/editeur" noindex />
 
       <div className="blog-container">
         <div className="blog-admin-topbar">

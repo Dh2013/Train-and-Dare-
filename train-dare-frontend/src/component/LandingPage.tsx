@@ -12,8 +12,9 @@ import { useNavigate, useParams } from 'react-router-dom';
 import { contactApi } from '../api/contact';
 import { trackConversion, trackEvent } from '../lib/analytics';
 import Seo from './Seo';
+import { pageSeo } from '../seo/pages';
 import SocialShareButtons from './SocialShareButtons';
-import { ClientReviewsSection, EmailMarketingSection } from './MarketingSections';
+import { ClientReviewsSection } from './MarketingSections';
 import './LandingPage.css';
 
 const { Paragraph, Title } = Typography;
@@ -23,8 +24,7 @@ const landingPages = {
   education: {
     label: 'Education entrepreneuriale',
     title: 'Ateliers entrepreneuriat pour jeunes qui veulent oser, creer et presenter leurs idees.',
-    description:
-      'Une landing page dediee aux campagnes SEA pour attirer parents, jeunes et etablissements interesses par les ateliers Train & Dare.',
+    description: pageSeo('/landing/education').description,
     audience: 'Parents, adolescents, etablissements scolaires',
     offer: 'Demander un diagnostic jeunesse',
     bullets: [
@@ -37,8 +37,7 @@ const landingPages = {
   formation: {
     label: 'Formation adultes',
     title: 'Formation entrepreneuriat pour transformer une idee en projet clair et credible.',
-    description:
-      'Une landing page pour convertir le trafic issu des campagnes Google Ads, Meta Ads ou LinkedIn Ads vers une demande de contact.',
+    description: pageSeo('/landing/formation').description,
     audience: 'Adultes, porteurs de projet, reconversion',
     offer: 'Recevoir un appel de qualification',
     bullets: [
@@ -51,8 +50,7 @@ const landingPages = {
   coaching: {
     label: 'Coaching transformationnel',
     title: 'Coaching mindset et passage a l action pour avancer avec clarte.',
-    description:
-      'Une landing page courte pour convertir les personnes qui cherchent un accompagnement individuel ou un workshop cible.',
+    description: pageSeo('/landing/coaching').description,
     audience: 'Jeunes, adultes, equipes et institutions',
     offer: 'Planifier un premier echange',
     bullets: [
@@ -114,24 +112,13 @@ export default function LandingPage() {
 
   return (
     <div className="landing-shell">
-      <Seo
-        title={`${page.label} - Landing page`}
-        description={page.description}
-        path={`/landing/${landingKey}`}
-        type="website"
-        keywords={[
-          'formation entrepreneuriat',
-          'coaching mindset',
-          'education entrepreneuriale',
-          'Train and Dare Academy',
-        ]}
-      />
+      <Seo {...pageSeo(`/landing/${landingKey}`)} />
 
       <section className="landing-hero">
         <div className="home-container landing-hero-grid">
           <div className="landing-copy">
             <span className="landing-kicker">{page.label}</span>
-            <Title className="landing-title">{page.title}</Title>
+            <Title level={1} className="landing-title">{page.title}</Title>
             <Paragraph className="landing-lead">{page.description}</Paragraph>
 
             <div className="landing-bullets">
@@ -233,7 +220,6 @@ export default function LandingPage() {
       </section>
 
       <ClientReviewsSection />
-      <EmailMarketingSection />
     </div>
   );
 }
