@@ -1,6 +1,6 @@
 import React, { useEffect, useMemo, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { Alert, Button, Card, Col, Row, Skeleton, Tag, Typography } from 'antd';
+import { Button, Card, Col, Row, Skeleton, Tag, Typography } from 'antd';
 import { motion } from 'framer-motion';
 import {
   ArrowLeftOutlined,
@@ -162,7 +162,6 @@ const EducationPage: React.FC = () => {
   const navigate = useNavigate();
   const [univers, setUnivers] = useState<Univers | null>(null);
   const [loading, setLoading] = useState(true);
-  const [usingFallback, setUsingFallback] = useState(false);
 
   useEffect(() => {
     let cancelled = false;
@@ -175,14 +174,12 @@ const EducationPage: React.FC = () => {
         }
         const educationUnivers = Array.isArray(data) && data.length > 0 ? data[0] : FALLBACK_UNIVERS;
         setUnivers(educationUnivers);
-        setUsingFallback(false);
       })
       .catch(() => {
         if (cancelled) {
           return;
         }
         setUnivers(FALLBACK_UNIVERS);
-        setUsingFallback(true);
       })
       .finally(() => {
         if (!cancelled) {
@@ -216,16 +213,6 @@ const EducationPage: React.FC = () => {
         <Button type="text" icon={<ArrowLeftOutlined />} onClick={() => navigate('/#programmes')}>
           Retour au site
         </Button>
-
-        {usingFallback && (
-          <Alert
-            showIcon
-            type="info"
-            style={{ marginTop: 12 }}
-            message="Contenu de secours affiché"
-            description="Le serveur programme n’a pas répondu. La page affiche donc les données intégrées au frontend."
-          />
-        )}
 
         {loading ? (
           <div className="education-loading-card">
