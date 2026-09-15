@@ -280,6 +280,18 @@
   margin-bottom: 14px;
 }
 
+.formation-module-top > * {
+  min-width: 0;
+}
+
+.formation-module-top .ant-tag {
+  max-width: 100%;
+  height: auto;
+  white-space: normal;
+  overflow-wrap: anywhere;
+  line-height: 1.5;
+}
+
 .formation-module-step {
   display: inline-flex;
   align-items: center;
@@ -453,5 +465,26 @@
   .formation-proof-body,
   .formation-cta-card {
     padding: 24px;
+  }
+
+  .formation-module-top {
+    align-items: flex-start;
+    flex-wrap: wrap;
+  }
+
+  .formation-module-top .ant-tag {
+    flex: 1 1 180px;
+  }
+
+  .formation-hero-grid > div {
+    transform: none !important;
+  }
+
+  .formation-action-row .ant-btn,
+  .formation-cta-actions .ant-btn {
+    width: 100%;
+    min-height: 44px;
+    height: auto;
+    white-space: normal;
   }
 }

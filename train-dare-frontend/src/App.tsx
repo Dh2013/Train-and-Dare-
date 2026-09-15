@@ -1,7 +1,8 @@
-import React, { useState, useEffect, useCallback } from 'react';
+import React, { useState, useEffect, useCallback, useRef } from 'react';
 import { Button, Menu, Layout } from 'antd';
 import { Routes, Route, useNavigate, useLocation, Navigate } from 'react-router-dom';
-import { MenuOutlined } from '@ant-design/icons';
+import { CloseOutlined, MenuOutlined } from '@ant-design/icons';
+import './SiteLayout.css';
 
 import { SECTION_IDS, NAV_SECTION_IDS, SECTION_LABELS } from './constants/navigation';
 import AdultPlusInfo from './component/AdultPlusInfo';
@@ -44,6 +45,29 @@ const App: React.FC = () => {
   const location = useLocation();
   const [activeSection, setActiveSection] = useState('accueil');
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
+  const menuButtonRef = useRef<HTMLButtonElement>(null);
+
+  useEffect(() => {
+    setIsMobileMenuOpen(false);
+  }, [location.key]);
+
+  useEffect(() => {
+    if (!isMobileMenuOpen) return;
+    const closeOnEscape = (event: KeyboardEvent) => {
+      if (event.key === 'Escape') {
+        setIsMobileMenuOpen(false);
+        menuButtonRef.current?.focus();
+      }
+    };
+    const desktop = window.matchMedia('(min-width: 1100px)');
+    const closeOnDesktop = () => { if (desktop.matches) setIsMobileMenuOpen(false); };
+    document.addEventListener('keydown', closeOnEscape);
+    desktop.addEventListener('change', closeOnDesktop);
+    return () => {
+      document.removeEventListener('keydown', closeOnEscape);
+      desktop.removeEventListener('change', closeOnDesktop);
+    };
+  }, [isMobileMenuOpen]);
 
   useEffect(() => {
     const handleScroll = () => {
@@ -102,6 +126,7 @@ const App: React.FC = () => {
 
   const handleNavClick = useCallback(
     (section: string) => {
+      setIsMobileMenuOpen(false);
       if (section === 'blog') navigate('/blog');
       else if (location.pathname !== '/') navigate(section === 'accueil' ? '/' : `/#${section}`);
       else scrollToSection(section);
@@ -113,61 +138,35 @@ const App: React.FC = () => {
     <Layout style={{ minHeight: '100vh' }}>
         <AnalyticsTracker />
         {/* Fixed Header */}
-        <Header
-          style={{
-            position: 'fixed',
-            zIndex: 1000,
-            width: '100%',
-            background: 'rgba(255,252,247,0.88)',
-            backdropFilter: 'blur(14px)',
-            display: 'flex',
-            alignItems: 'center',
-            justifyContent: 'space-between',
-            padding: '0 24px',
-            boxShadow: '0 10px 34px rgba(16,34,24,0.08)',
-            
-          }}
-        >
-          <div
-            style={{
-              fontWeight: 'bold',
-              fontSize: '1.5rem',
-              cursor: 'pointer',
-              display: 'flex',
-              alignItems: 'center',
-              gap: '12px',
-            }}
+        <Header className="site-header">
+          <button
+            type="button"
+            className="site-header__brand"
+            aria-label="Train and Dare Academy — Accueil"
             onClick={() => handleNavClick('accueil')}
-            >
+          >
             <img 
             src='/logo T&D.pdf (2).svg'
-            alt='Train and Dare '
-            style={{ width: 44, height: 44, objectFit: 'contain'}}
+            alt=''
             />
-            <div style={{ display: 'flex', flexDirection: 'column', lineHeight: 1 }}>
-    <span style={{ fontWeight: 700, fontSize: '1.5rem', display: 'flex', gap: 4, alignItems: 'center' }}>
+            <span className="site-header__wordmark">
+    <span className="site-header__name">
       <span style={{ color: '#14532d' }}>Train</span>
       <span style={{ color: '#ff6b3d' }}>&nbsp;&amp;&nbsp;</span>
       <span style={{ color: '#14532d' }}>Dare</span>
       <span style={{ color: '#c47b16' }}> Academy</span>
     </span>
-    <small style={{ fontSize: 11, color: '#5f6d64' }}>Entrepreneuriat • Mindset • Transformation</small>
-  </div>
-          </div>
+    <small>Entrepreneuriat • Mindset • Transformation</small>
+  </span>
+          </button>
           
           {/* Desktop Menu */}
           <Menu
+            className="site-header__desktop-menu"
             theme="light"
             mode="horizontal"
             selectedKeys={[activeSection]}
             onClick={({ key }) => handleNavClick(String(key))}
-            style={{ 
-              flex: 1, 
-              justifyContent: 'flex-end',
-              border: 'none',
-              background: 'transparent',
-              display: window.innerWidth > 768 ? 'flex' : 'none'
-            }}
             items={NAV_SECTION_IDS.map((section) => ({
               key: section,
               label: <a href={getSectionHref(section)} onClick={(event) => event.preventDefault()}>{getSectionLabel(section)}</a>,
@@ -176,30 +175,20 @@ const App: React.FC = () => {
 
           {/* Mobile Menu Button */}
           <Button
+            ref={menuButtonRef}
+            className="site-header__menu-toggle"
             type="text"
-            icon={<MenuOutlined />}
-            onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
-            style={{ 
-              display: window.innerWidth <= 768 ? 'block' : 'none',
-              fontSize: '1.5rem'
-            }}
+            icon={isMobileMenuOpen ? <CloseOutlined /> : <MenuOutlined />}
+            aria-label={isMobileMenuOpen ? 'Fermer le menu' : 'Ouvrir le menu'}
+            aria-expanded={isMobileMenuOpen}
+            aria-controls="site-mobile-menu"
+            onClick={() => setIsMobileMenuOpen(open => !open)}
           />
         </Header>
 
         {/* Mobile Menu Dropdown */}
         {isMobileMenuOpen && (
-          <div
-            style={{
-              position: 'fixed',
-              top: 64,
-              left: 0,
-              right: 0,
-              background: 'white',
-              zIndex: 999,
-              boxShadow: '0 4px 12px rgba(0,0,0,0.15)',
-              padding: '1rem',
-            }}
-          >
+          <nav id="site-mobile-menu" className="site-mobile-menu" aria-label="Navigation principale">
             {NAV_SECTION_IDS.map((section) => (
               <a
                 key={section}
@@ -218,7 +207,7 @@ const App: React.FC = () => {
                 {getSectionLabel(section)}
               </a>
             ))}
-          </div>
+          </nav>
         )}
 
         <Content style={{ marginTop: 64 }}>

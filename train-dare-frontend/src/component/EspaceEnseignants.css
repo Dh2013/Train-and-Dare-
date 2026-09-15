@@ -353,6 +353,19 @@
   margin-bottom: 18px;
 }
 
+.teachers-program-top > div {
+  min-width: 0;
+  max-width: 100%;
+}
+
+.teachers-program-top .ant-tag {
+  max-width: 100%;
+  height: auto;
+  white-space: normal;
+  overflow-wrap: anywhere;
+  line-height: 1.5;
+}
+
 .teachers-program-number {
   color: var(--teachers-coral);
   font-family: 'Sora', 'Trebuchet MS', sans-serif;
@@ -454,7 +467,16 @@
   }
 
   .teachers-display {
-    font-size: 2.25rem !important;
+    font-size: clamp(1.95rem, 9vw, 2.25rem) !important;
+    line-height: 1.12 !important;
+  }
+
+  .teachers-program-top {
+    flex-wrap: wrap;
+  }
+
+  .teachers-program-top > div {
+    flex: 1 1 180px;
   }
 
   .teachers-action-row .ant-btn,
@@ -462,6 +484,9 @@
   .teachers-cta-actions .ant-btn,
   .teachers-section-head--row .ant-btn {
     width: 100%;
+    min-height: 44px;
+    height: auto;
+    white-space: normal;
   }
 
   .teachers-image-stack {

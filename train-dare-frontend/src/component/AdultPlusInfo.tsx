@@ -2,6 +2,7 @@ import React from "react";
 import Seo from './Seo';
 import { pageSeo } from '../seo/pages';
 import { Card, Row, Col, Typography, List, Collapse, Button } from "antd";
+import './AdultPlusInfo.css';
 import {
   ContainerOutlined,
   CheckCircleOutlined,
@@ -28,7 +29,7 @@ const AdultPlusInfo: React.FC<AdultPlusInfoProps> = ({ onEnroll, onContact }) =>
   ];
 
   return (
-    <Card variant="outlined" style={{ borderRadius: 12 }}>
+    <Card className="adult-plus-info-card" variant="outlined" style={{ borderRadius: 12 }}>
       <Seo {...pageSeo('/adult-plus-info')} />
       <Row gutter={[24, 24]} align="top">
         <Col xs={24} md={16}>

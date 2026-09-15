@@ -516,7 +516,7 @@
 
 @media (max-width: 768px) {
   .education-container {
-    width: min(100% - 20px, 1180px);
+    width: min(1180px, calc(100% - 32px));
   }
 
   .education-shell {
@@ -526,6 +526,77 @@
 
   .education-stat-grid {
     grid-template-columns: 1fr;
+  }
+
+  .education-hero-grid > *,
+  .education-grid-two > *,
+  .education-cta-card > *,
+  .education-impact-card > div,
+  .education-journey-step > div,
+  .education-objective-item > span {
+    min-width: 0;
+  }
+
+  .education-display {
+    font-size: clamp(1.85rem, 7.5vw, 3rem) !important;
+    line-height: 1.14 !important;
+    overflow-wrap: anywhere;
+  }
+
+  .education-section-title {
+    font-size: clamp(1.6rem, 6vw, 2.2rem) !important;
+    line-height: 1.18 !important;
+    overflow-wrap: anywhere;
+  }
+
+  .education-action-row,
+  .education-card-actions,
+  .education-cta-actions {
+    flex-direction: column;
+    align-items: stretch;
+  }
+
+  .education-action-row .ant-btn,
+  .education-card-actions .ant-btn,
+  .education-cta-actions .ant-btn {
+    width: 100%;
+    max-width: 100%;
+    min-height: 44px;
+    height: auto;
+    padding: 10px 16px;
+    white-space: normal;
+    line-height: 1.45;
+  }
+
+  .education-action-row .ant-btn > span:not(.ant-btn-icon),
+  .education-card-actions .ant-btn > span:not(.ant-btn-icon),
+  .education-cta-actions .ant-btn > span:not(.ant-btn-icon) {
+    min-width: 0;
+    overflow-wrap: anywhere;
+  }
+
+  .education-card-top .ant-tag {
+    max-width: 100%;
+    margin-inline-end: 0;
+    padding: 4px 8px;
+    white-space: normal;
+    overflow-wrap: anywhere;
+    line-height: 1.6;
+  }
+
+  .education-impact-card,
+  .education-journey-step,
+  .education-objective-item,
+  .education-proof-points {
+    overflow-wrap: anywhere;
+  }
+
+  .education-program-card .ant-card-body {
+    padding: 20px;
+  }
+
+  .education-hero-grid > div {
+    transform: none !important;
   }
 
   .education-image-stack {
@@ -547,5 +618,41 @@
   .education-proof-body,
   .education-cta-card {
     padding: 24px;
+  }
+}
+
+@media (max-width: 480px) {
+  .education-section {
+    padding-top: 44px;
+  }
+
+  .education-section--dark,
+  .education-journey-card,
+  .education-proof-body,
+  .education-cta-card,
+  .education-ecosystem-card,
+  .education-impact-card,
+  .education-program-card .ant-card-body {
+    padding: 18px;
+  }
+
+  .education-impact-card {
+    flex-direction: column;
+    gap: 12px;
+  }
+
+  .education-impact-icon {
+    width: 48px;
+    height: 48px;
+  }
+
+  .education-journey-step {
+    gap: 12px;
+  }
+
+  .education-step-index {
+    width: 42px;
+    height: 42px;
+    border-radius: 14px;
   }
 }

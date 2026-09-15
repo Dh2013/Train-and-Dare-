@@ -50,6 +50,15 @@
   padding: 24px 0 48px;
 }
 
+.inscription-hero-copy,
+.inscription-form-intro,
+.inscription-form-card,
+.inscription-family-panel,
+.inscription-proof-card,
+.inscription-family-step {
+  min-width: 0;
+}
+
 .inscription-hero--family {
   grid-template-columns: minmax(0, 1.06fr) minmax(320px, 0.74fr);
   align-items: stretch;
@@ -202,6 +211,7 @@
   margin: 18px 0 26px;
   color: rgba(255, 255, 255, 0.78);
   line-height: 1.78;
+  overflow-wrap: anywhere;
 }
 
 .inscription-family-tags {
@@ -232,6 +242,11 @@
   color: #102218;
   background: rgba(255, 255, 255, 0.9);
   font-weight: 800;
+}
+
+.inscription-family-note span {
+  min-width: 0;
+  overflow-wrap: anywhere;
 }
 
 .inscription-family-note .anticon {
@@ -501,5 +516,22 @@
   .inscription-action-row .ant-btn,
   .inscription-submit-row .ant-btn {
     width: 100%;
+    min-height: 44px;
+    height: auto;
+    white-space: normal;
+  }
+
+  .inscription-family-tags span,
+  .inscription-selected-program span {
+    max-width: 100%;
+    overflow-wrap: anywhere;
+  }
+
+  .inscription-form-card .ant-input,
+  .inscription-form-card .ant-input-affix-wrapper,
+  .inscription-form-card .ant-select,
+  .inscription-form-card textarea {
+    width: 100%;
+    max-width: 100%;
   }
 }

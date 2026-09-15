@@ -27,6 +27,13 @@
   box-shadow: 0 18px 44px rgba(16, 34, 24, 0.07);
 }
 
+.marketing-card,
+.review-card,
+.marketing-cta-strip > *,
+.share-panel > * {
+  min-width: 0;
+}
+
 .marketing-card {
   padding: 24px;
   border-radius: 24px;
@@ -44,6 +51,7 @@
 .review-card p {
   color: #52615a;
   line-height: 1.75;
+  overflow-wrap: anywhere;
 }
 
 .marketing-icon {
@@ -133,5 +141,40 @@
 @media (max-width: 768px) {
   .marketing-section {
     padding: 62px 0;
+  }
+
+  .marketing-card,
+  .review-card,
+  .marketing-cta-strip,
+  .share-panel {
+    padding: 22px;
+  }
+
+  .marketing-cta-actions,
+  .social-share-buttons {
+    align-items: stretch;
+    flex-direction: column;
+  }
+
+  .marketing-cta-actions .ant-btn,
+  .social-share-buttons .ant-btn {
+    width: 100%;
+    min-height: 44px;
+    height: auto;
+    white-space: normal;
+  }
+}
+
+@media (max-width: 576px) {
+  .marketing-section {
+    padding: 48px 0;
+  }
+
+  .marketing-card,
+  .review-card,
+  .marketing-cta-strip,
+  .share-panel {
+    padding: 18px 16px;
+    border-radius: 22px;
   }
 }
